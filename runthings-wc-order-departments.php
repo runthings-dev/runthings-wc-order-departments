@@ -38,43 +38,33 @@ define('RUNTHINGS_WC_ORDER_DEPARTMENTS_VERSION', '0.1.0');
 define('RUNTHINGS_WC_ORDER_DEPARTMENTS_URL', plugin_dir_url(__FILE__));
 define('RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR', plugin_dir_path(__FILE__));
 
+require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/taxonomy.php';
 require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo-integration.php';
 
 class RunthingsWCOrderDepartments
 {
+    public $taxonomy = 'order_department';
+
     public function __construct()
     {
-        add_action('init', [$this, 'register_order_department_taxonomy']);
         add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
         add_action('admin_menu', [$this, 'add_department_quick_access_menus']);
         add_action('admin_menu', [$this, 'add_departments_management_menu'], 99);
 
+        new Taxonomy($this->taxonomy);
         new AutomateWooIntegration();
-    }
-
-    public function register_order_department_taxonomy(): void
-    {
-        register_taxonomy('order_department', 'shop_order', [
-            'label' => 'Department',
-            'public' => false,
-            'show_ui' => true,
-            'show_admin_column' => true,
-            'hierarchical' => false,
-            'rewrite' => false,
-        ]);
     }
 
     public function add_admin_filter_dropdown(string $post_type): void
     {
         if ($post_type !== 'shop_order') return;
 
-        $taxonomy = 'order_department';
-        $selected = $_GET[$taxonomy] ?? '';
+        $selected = $_GET[$this->taxonomy] ?? '';
 
         wp_dropdown_categories([
             'show_option_all' => 'All Departments',
-            'taxonomy' => $taxonomy,
-            'name' => $taxonomy,
+            'taxonomy' => $this->taxonomy,
+            'name' => $this->taxonomy,
             'orderby' => 'name',
             'selected' => $selected,
             'hierarchical' => false,
@@ -89,7 +79,7 @@ class RunthingsWCOrderDepartments
     {
         // Get all departments
         $departments = get_terms([
-            'taxonomy' => 'order_department',
+            'taxonomy' => $this->taxonomy,
             'hide_empty' => false,
             'orderby' => 'name',
             'order' => 'ASC',
@@ -106,7 +96,7 @@ class RunthingsWCOrderDepartments
                 'Orders - ' . $department->name, // Page title
                 'Orders - ' . $department->name, // Menu title
                 'manage_woocommerce', // Capability
-                'edit.php?post_type=shop_order&order_department=' . $department->slug, // URL with filter
+                'edit.php?post_type=shop_order&'.$this->taxonomy.'=' . $department->slug, // URL with filter
                 null // Callback function (null because we're just linking)
             );
         }
@@ -119,7 +109,7 @@ class RunthingsWCOrderDepartments
             'Order Departments',
             'Order Departments',
             'manage_woocommerce',
-            'edit-tags.php?taxonomy=order_department&post_type=shop_order'
+            'edit-tags.php?taxonomy='.$this->taxonomy.'&post_type=shop_order'
         );
     }
 }
