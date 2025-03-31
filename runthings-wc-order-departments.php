@@ -46,7 +46,8 @@ class RunthingsWCOrderDepartments
     {
         add_action('init', [$this, 'register_order_department_taxonomy']);
         add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
-        add_action('admin_menu', [$this, 'add_department_management_menu'], 99); // Use priority to place it near the bottom
+        add_action('admin_menu', [$this, 'add_department_quick_access_menus']);
+        add_action('admin_menu', [$this, 'add_departments_management_menu'], 99);
 
         new AutomateWooIntegration();
     }
@@ -84,7 +85,34 @@ class RunthingsWCOrderDepartments
         ]);
     }
 
-    public function add_department_management_menu(): void
+    public function add_department_quick_access_menus(): void
+    {
+        // Get all departments
+        $departments = get_terms([
+            'taxonomy' => 'order_department',
+            'hide_empty' => false,
+            'orderby' => 'name',
+            'order' => 'ASC',
+        ]);
+        
+        if (is_wp_error($departments) || empty($departments)) {
+            return;
+        }
+        
+        // Loop through each department and add a submenu link
+        foreach ($departments as $department) {
+            add_submenu_page(
+                'woocommerce', // Parent slug
+                'Orders - ' . $department->name, // Page title
+                'Orders - ' . $department->name, // Menu title
+                'manage_woocommerce', // Capability
+                'edit.php?post_type=shop_order&order_department=' . $department->slug, // URL with filter
+                null // Callback function (null because we're just linking)
+            );
+        }
+    }
+
+    public function add_departments_management_menu(): void
     {
         add_submenu_page(
             'woocommerce',
