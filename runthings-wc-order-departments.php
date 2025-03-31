@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Plugin Name: WooCommerce Order Departments
  * Plugin URI: https://runthings.dev
@@ -45,7 +46,6 @@ class RunthingsWCOrderDepartments
     {
         add_action('init', [$this, 'register_order_department_taxonomy']);
         add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
-        add_action('pre_get_posts', [$this, 'filter_orders_by_taxonomy'], 99);
         add_action('admin_menu', [$this, 'add_department_management_menu']);
 
         new AutomateWooIntegration();
@@ -80,53 +80,8 @@ class RunthingsWCOrderDepartments
             'depth' => 1,
             'show_count' => false,
             'hide_empty' => false,
+            'value_field' => 'slug', // use slug so wp built in taxonomy filter works with it
         ]);
-    }
-
-    public function filter_orders_by_taxonomy($query): void
-    {
-        if (!is_admin()) {
-            return;
-        }
-
-        global $pagenow;
-
-        // Check if we're on the orders admin page
-        if ('edit.php' !== $pagenow || !isset($query->query['post_type']) || 'shop_order' !== $query->query['post_type']) {
-            return;
-        }
-
-        // Only modify the main query
-        if (!$query->is_main_query()) {
-            return;
-        }
-
-        // Check if our taxonomy filter is set
-        if (!empty($_GET['order_department']) && is_numeric($_GET['order_department'])) {
-            // Get existing tax query
-            $tax_query = $query->get('tax_query');
-            if (!is_array($tax_query)) {
-                $tax_query = [];
-            }
-
-            // // Add our tax query
-            // $tax_query[] = [
-            //     'taxonomy' => 'order_department',
-            //     'field' => 'term_id',
-            //     'terms' => intval($_GET['order_department']),
-            // ];
-
-            // $query->set('tax_query', $tax_query);
-            $meta_query = array(
-                array(
-                    'key' => 'is_first_order',
-                    'value' => 1,
-                    'compare' => '='
-                )
-            );
-
-            $query->set('meta_query', $meta_query);
-        }
     }
 
     public function add_department_management_menu(): void
