@@ -46,7 +46,7 @@ class RunthingsWCOrderDepartments
     {
         add_action('init', [$this, 'register_order_department_taxonomy']);
         add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
-        add_action('admin_menu', [$this, 'add_department_management_menu']);
+        add_action('admin_menu', [$this, 'add_department_management_menu'], 99); // Use priority to place it near the bottom
 
         new AutomateWooIntegration();
     }
