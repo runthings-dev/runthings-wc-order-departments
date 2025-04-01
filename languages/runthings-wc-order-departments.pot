@@ -1,0 +1,90 @@
+# Copyright (C) 2025 runthingsdev
+# This file is distributed under the GPLv3 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Order Departments 0.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-04-01T07:48:40+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: runthings-wc-order-departments\n"
+
+#. Plugin Name of the plugin
+#: runthings-wc-order-departments.php
+msgid "WooCommerce Order Departments"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: runthings-wc-order-departments.php
+msgid "https://runthings.dev"
+msgstr ""
+
+#. Description of the plugin
+#: runthings-wc-order-departments.php
+msgid "Split WooCommerce Orders by Departments"
+msgstr ""
+
+#. Author of the plugin
+#: runthings-wc-order-departments.php
+msgid "runthingsdev"
+msgstr ""
+
+#. Author URI of the plugin
+#: runthings-wc-order-departments.php
+msgid "https://runthings.dev/"
+msgstr ""
+
+#: lib/actions/aw-action-set-order-department.php:20
+msgid "Set Order Department"
+msgstr ""
+
+#: lib/actions/aw-action-set-order-department.php:21
+msgid "Set a department for the order."
+msgstr ""
+
+#: lib/actions/aw-action-set-order-department.php:22
+msgid "Order"
+msgstr ""
+
+#: lib/actions/aw-action-set-order-department.php:32
+msgid "Department"
+msgstr ""
+
+#: lib/taxonomy.php:94
+msgid "Select..."
+msgstr ""
+
+#: lib/taxonomy.php:111
+#: lib/taxonomy.php:179
+msgid "Email Addresses"
+msgstr ""
+
+#: lib/taxonomy.php:113
+#: lib/taxonomy.php:183
+msgid "Separate multiple emails with a semicolon (;)"
+msgstr ""
+
+#: lib/taxonomy.php:117
+#: lib/taxonomy.php:188
+msgid "Department Categories"
+msgstr ""
+
+#: lib/taxonomy.php:134
+#: lib/taxonomy.php:208
+msgid "Select product categories associated with this department"
+msgstr ""
+
+#: lib/taxonomy.php:138
+#: lib/taxonomy.php:213
+msgid "Department Products"
+msgstr ""
+
+#: lib/taxonomy.php:154
+#: lib/taxonomy.php:232
+msgid "Select specific products associated with this department"
+msgstr ""
