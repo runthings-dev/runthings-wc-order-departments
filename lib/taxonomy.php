@@ -81,9 +81,7 @@ class Taxonomy
         
         ?>
         <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                console.log('Initializing Select2 for department categories');
-                
+            jQuery(document).ready(function($) {               
                 // Force initialize Select2 after page load
                 $('.wc-enhanced-select').each(function() {
                     if ($(this).data('select2')) {
