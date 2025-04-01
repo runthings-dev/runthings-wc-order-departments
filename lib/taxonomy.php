@@ -91,7 +91,7 @@ class Taxonomy
                     }
                     
                     $(this).select2({
-                        placeholder: '<?php echo esc_js(__('Select categories...', 'runthings-wc-order-departments')); ?>',
+                        placeholder: '<?php echo esc_js(__('Select...', 'runthings-wc-order-departments')); ?>',
                         allowClear: true,
                         width: '100%'
                     });
@@ -133,6 +133,26 @@ class Taxonomy
             </select>
             <p class="description"><?php _e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
         </div>
+        
+        <div class="form-field">
+            <label for="<?php echo $this->meta_prefix; ?>selected_products"><?php _e('Department Products', 'runthings-wc-order-departments'); ?></label>
+            <select name="<?php echo $this->meta_prefix; ?>selected_products[]" id="<?php echo $this->meta_prefix; ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                <?php
+                // Query for products
+                $products = wc_get_products(array(
+                    'limit' => -1,
+                    'status' => 'publish',
+                ));
+                
+                if (!empty($products)) {
+                    foreach ($products as $product) {
+                        echo '<option value="' . esc_attr($product->get_id()) . '">' . esc_html($product->get_name()) . ' (#' . $product->get_id() . ')</option>';
+                    }
+                }
+                ?>
+            </select>
+            <p class="description"><?php _e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+        </div>
         <?php
     }
     
@@ -144,9 +164,14 @@ class Taxonomy
         $term_id = $term->term_id;
         $emails = get_term_meta($term_id, $this->meta_prefix . 'department_emails', true);
         $selected_categories = get_term_meta($term_id, $this->meta_prefix . 'department_categories', true);
+        $selected_products = get_term_meta($term_id, $this->meta_prefix . 'selected_products', true);
         
         if (!is_array($selected_categories)) {
             $selected_categories = array();
+        }
+        
+        if (!is_array($selected_products)) {
+            $selected_products = array();
         }
         ?>
         <tr class="form-field">
@@ -183,6 +208,30 @@ class Taxonomy
                 <p class="description"><?php _e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
+        <tr class="form-field">
+            <th scope="row">
+                <label for="<?php echo $this->meta_prefix; ?>selected_products"><?php _e('Department Products', 'runthings-wc-order-departments'); ?></label>
+            </th>
+            <td>
+                <select name="<?php echo $this->meta_prefix; ?>selected_products[]" id="<?php echo $this->meta_prefix; ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                    <?php
+                    // Query for products
+                    $products = wc_get_products(array(
+                        'limit' => -1,
+                        'status' => 'publish',
+                    ));
+                    
+                    if (!empty($products)) {
+                        foreach ($products as $product) {
+                            $selected = in_array($product->get_id(), $selected_products) ? 'selected="selected"' : '';
+                            echo '<option value="' . esc_attr($product->get_id()) . '" ' . $selected . '>' . esc_html($product->get_name()) . ' (#' . $product->get_id() . ')</option>';
+                        }
+                    }
+                    ?>
+                </select>
+                <p class="description"><?php _e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+            </td>
+        </tr>
         <?php
     }
     
@@ -213,6 +262,23 @@ class Taxonomy
             update_term_meta(
                 $term_id, 
                 $this->meta_prefix . 'department_categories', 
+                array()
+            );
+        }
+        
+        // Save selected products
+        if (isset($_POST[$this->meta_prefix . 'selected_products'])) {
+            $products = array_map('absint', (array) $_POST[$this->meta_prefix . 'selected_products']);
+            update_term_meta(
+                $term_id,
+                $this->meta_prefix . 'selected_products',
+                $products
+            );
+        } else {
+            // If no products are selected, save an empty array
+            update_term_meta(
+                $term_id, 
+                $this->meta_prefix . 'selected_products', 
                 array()
             );
         }
