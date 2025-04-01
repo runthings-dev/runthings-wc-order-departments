@@ -71,11 +71,19 @@ class EmailInterceptor
             $categories = get_term_meta($department->term_id, $this->meta_prefix . 'department_categories', true);
             $products = get_term_meta($department->term_id, $this->meta_prefix . 'selected_products', true);
             
-            // Process email addresses
+            // Process email addresses - ensure no newlines or extra whitespace
             $emails = [];
             if (!empty($emails_raw)) {
-                $emails = array_map('trim', explode(';', $emails_raw));
-                $emails = array_filter($emails); // Remove empty entries
+                $emails_raw = str_replace(["\r\n", "\r", "\n"], ';', $emails_raw);
+                $emails_array = explode(';', $emails_raw);
+                
+                // Trim and filter each email address
+                foreach ($emails_array as $email) {
+                    $email = trim($email);
+                    if (!empty($email)) {
+                        $emails[] = $email;
+                    }
+                }
             }
             
             // Ensure categories and products are arrays
