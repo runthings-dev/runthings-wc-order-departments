@@ -49,6 +49,125 @@ class EmailInterceptor
     }
     
     /**
+     * Get all departments with their metadata
+     *
+     * @return array Departments with their metadata
+     */
+    private function get_all_departments()
+    {
+        $departments_data = [];
+        
+        $departments = get_terms([
+            'taxonomy' => $this->taxonomy,
+            'hide_empty' => false,
+        ]);
+        
+        if (empty($departments) || is_wp_error($departments)) {
+            return $departments_data;
+        }
+        
+        foreach ($departments as $department) {
+            $emails_raw = get_term_meta($department->term_id, $this->meta_prefix . 'department_emails', true);
+            $categories = get_term_meta($department->term_id, $this->meta_prefix . 'department_categories', true);
+            $products = get_term_meta($department->term_id, $this->meta_prefix . 'selected_products', true);
+            
+            // Process email addresses
+            $emails = [];
+            if (!empty($emails_raw)) {
+                $emails = array_map('trim', explode(';', $emails_raw));
+                $emails = array_filter($emails); // Remove empty entries
+            }
+            
+            // Ensure categories and products are arrays
+            $categories = is_array($categories) ? $categories : [];
+            $products = is_array($products) ? $products : [];
+            
+            // Add to our data structure if department has routing criteria (emails + either products or categories)
+            if (!empty($emails) && (!empty($categories) || !empty($products))) {
+                $departments_data[] = [
+                    'id' => $department->term_id,
+                    'name' => $department->name,
+                    'emails' => $emails,
+                    'categories' => $categories,
+                    'products' => $products,
+                ];
+            }
+        }
+        
+        return $departments_data;
+    }
+    
+    /**
+     * Get product data from an order
+     *
+     * @param \WC_Order $order
+     * @return array Product data including IDs and categories
+     */
+    private function get_order_product_data($order)
+    {
+        $product_data = [
+            'product_ids' => [],
+            'category_ids' => [],
+        ];
+        
+        // Loop through order items
+        foreach ($order->get_items() as $item) {
+            // Make sure we're working with a product item
+            if (!($item instanceof \WC_Order_Item_Product)) {
+                continue;
+            }
+            
+            // Get the product ID from the item
+            $product_id = $item->get_product_id();
+            
+            // Add product ID
+            $product_data['product_ids'][] = $product_id;
+            
+            // Get product categories
+            $categories = get_the_terms($product_id, 'product_cat');
+            if (!empty($categories) && !is_wp_error($categories)) {
+                foreach ($categories as $category) {
+                    $product_data['category_ids'][] = $category->term_id;
+                }
+            }
+        }
+        
+        // Remove duplicates
+        $product_data['product_ids'] = array_unique($product_data['product_ids']);
+        $product_data['category_ids'] = array_unique($product_data['category_ids']);
+        
+        return $product_data;
+    }
+    
+    /**
+     * Check if an order should be routed to a department
+     *
+     * @param array $department Department data
+     * @param array $product_data Order product data
+     * @return bool Whether the order should be routed to this department
+     */
+    private function should_route_to_department($department, $product_data)
+    {
+        // Check if any product in the order is directly assigned to the department
+        if (!empty($department['products']) && !empty($product_data['product_ids'])) {
+            $matching_products = array_intersect($department['products'], $product_data['product_ids']);
+            if (!empty($matching_products)) {
+                return true;
+            }
+        }
+        
+        // Check if any product category in the order is assigned to the department
+        if (!empty($department['categories']) && !empty($product_data['category_ids'])) {
+            $matching_categories = array_intersect($department['categories'], $product_data['category_ids']);
+            if (!empty($matching_categories)) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
      * Get department email addresses for an order
      *
      * @param \WC_Order $order Order object
@@ -56,31 +175,29 @@ class EmailInterceptor
      */
     private function get_department_recipients($order)
     {
-        // Placeholder implementation
-        // 1. Get the order ID
-        $order_id = $order->get_id();
+        // Get departments with their data
+        $departments = $this->get_all_departments();
         
-        // 2. Get department terms assigned to the order
-        $departments = get_the_terms($order_id, $this->taxonomy);
-        
-        if (!$departments || is_wp_error($departments)) {
+        if (empty($departments)) {
             return '';
         }
         
-        // 3. Get email addresses for each department
-        $all_emails = [];
+        // Get order product data
+        $product_data = $this->get_order_product_data($order);
+        
+        // Check departments for matches and collect emails
+        $destination_emails = [];
         
         foreach ($departments as $department) {
-            $emails = get_term_meta($department->term_id, $this->meta_prefix . 'department_emails', true);
-            
-            if (!empty($emails)) {
-                // Split emails by semicolon and add to our list
-                $email_array = array_map('trim', explode(';', $emails));
-                $all_emails = array_merge($all_emails, $email_array);
+            if ($this->should_route_to_department($department, $product_data)) {
+                $destination_emails = array_merge($destination_emails, $department['emails']);
             }
         }
         
-        // 4. Return unique emails as a comma-separated string (WP's email format)
-        return implode(', ', array_unique(array_filter($all_emails)));
+        // Remove duplicates and filter out empty values
+        $destination_emails = array_unique(array_filter($destination_emails));
+        
+        // Return comma-separated list of emails (WordPress email format)
+        return implode(', ', $destination_emails);
     }
 }
