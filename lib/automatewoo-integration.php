@@ -21,7 +21,7 @@ class AutomateWooIntegration
 
         require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/actions/aw-action-set-order-department.php';
 
-        $actions['runthings_set_order_department'] = 'RunthingsWCAdminDepartments\Actions\Set_Order_Department';
+        $actions['runthings_set_order_department'] = 'RunthingsWCOrderDepartments\Actions\Set_Order_Department';
 
         return $actions;
     }

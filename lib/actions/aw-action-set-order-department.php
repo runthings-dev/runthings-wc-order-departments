@@ -1,6 +1,6 @@
 <?php
 
-namespace RunthingsWCAdminDepartments\Actions;
+namespace RunthingsWCOrderDepartments\Actions;
 
 use AutomateWoo\Action;
 use AutomateWoo\Fields;
