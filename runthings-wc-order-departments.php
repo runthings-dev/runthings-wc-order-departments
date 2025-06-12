@@ -1,9 +1,9 @@
 <?php
 
 /*
- * Plugin Name: WooCommerce Order Departments
+ * Plugin Name: Order Departments for WooCommerce
  * Plugin URI: https://runthings.dev
- * Description: Split WooCommerce Orders by Departments
+ * Description: Split WooCommerce Orders by Departments, with AutomateWoo support
  * Version: 0.2.0
  * Author: runthingsdev
  * Author URI: https://runthings.dev/
