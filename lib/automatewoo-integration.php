@@ -6,8 +6,9 @@ class AutomateWooIntegration
 {
     public function __construct()
     {
-        // Register the custom action only if AutomateWoo is active
+        // Register custom actions and triggers only if AutomateWoo is active
         add_action('automatewoo/actions', [$this, 'register_department_actions']);
+        add_action('automatewoo/triggers', [$this, 'register_department_triggers']);
     }
 
     /**
@@ -30,5 +31,25 @@ class AutomateWooIntegration
         $actions['runthings_clear_order_departments'] = 'RunthingsWCOrderDepartments\Actions\Clear_Order_Departments';
 
         return $actions;
+    }
+
+    /**
+     * Register custom triggers for AutomateWoo
+     */
+    public function register_department_triggers($triggers)
+    {
+        if (!class_exists('AutomateWoo\Trigger')) {
+            return $triggers;
+        }
+
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-added.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-removed.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-changed.php';
+
+        $triggers['runthings_order_department_added'] = 'RunthingsWCOrderDepartments\Triggers\Order_Department_Added';
+        $triggers['runthings_order_department_removed'] = 'RunthingsWCOrderDepartments\Triggers\Order_Department_Removed';
+        $triggers['runthings_order_department_changed'] = 'RunthingsWCOrderDepartments\Triggers\Order_Department_Changed';
+
+        return $triggers;
     }
 }

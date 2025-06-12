@@ -74,6 +74,12 @@ class OrderDepartmentAssigner
             // Ensure the term cache is refreshed
             clean_post_cache($order->get_id());
 
+            // Fire triggers for each department added
+            foreach ($department_term_ids as $term_id) {
+                do_action('runthings_wc_order_department_added', $order->get_id(), $term_id);
+            }
+            do_action('runthings_wc_order_departments_changed', $order->get_id());
+
             // Log the assignment for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 error_log(sprintf(
@@ -88,6 +94,9 @@ class OrderDepartmentAssigner
 
             // Ensure the term cache is refreshed
             clean_post_cache($order->get_id());
+
+            // Fire trigger for departments changed
+            do_action('runthings_wc_order_departments_changed', $order->get_id());
 
             // Log for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {

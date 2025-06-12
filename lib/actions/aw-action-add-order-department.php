@@ -76,8 +76,12 @@ class Add_Order_Department extends Action
 
         // Add the department taxonomy to the order (append, don't replace)
         wp_set_object_terms($order->get_id(), $term_id, 'order_department', true);
-        
+
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
+
+        // Fire trigger for department added
+        do_action('runthings_wc_order_department_added', $order->get_id(), $term_id);
+        do_action('runthings_wc_order_departments_changed', $order->get_id());
     }
 }

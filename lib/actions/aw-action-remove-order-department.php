@@ -79,5 +79,9 @@ class Remove_Order_Department extends Action
 
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
+
+        // Fire trigger for department removed
+        do_action('runthings_wc_order_department_removed', $order->get_id(), $term_id);
+        do_action('runthings_wc_order_departments_changed', $order->get_id());
     }
 }

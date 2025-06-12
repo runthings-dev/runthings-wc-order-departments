@@ -41,8 +41,11 @@ class Clear_Order_Departments extends Action
 
         // Clear all department taxonomy terms from the order
         wp_set_object_terms($order->get_id(), [], 'order_department', false);
-        
+
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
+
+        // Fire trigger for departments changed
+        do_action('runthings_wc_order_departments_changed', $order->get_id());
     }
 }
