@@ -6,9 +6,9 @@ use AutomateWoo\Action;
 use AutomateWoo\Fields;
 
 /**
- * Action to set the department taxonomy term for an order
+ * Action to add a department taxonomy term to an order
  */
-class Set_Order_Department extends Action
+class Add_Order_Department extends Action
 {
     public $required_data_items = ['order'];
 
@@ -17,8 +17,8 @@ class Set_Order_Department extends Action
      */
     public function load_admin_details()
     {
-        $this->title = __('Set Order Department', 'runthings-wc-order-departments');
-        $this->description = __('Set a department for the order (replaces all existing departments).', 'runthings-wc-order-departments');
+        $this->title = __('Add Order Department', 'runthings-wc-order-departments');
+        $this->description = __('Add a department to the order (keeps existing departments).', 'runthings-wc-order-departments');
         $this->group = __('Order', 'runthings-wc-order-departments');
     }
 
@@ -74,9 +74,9 @@ class Set_Order_Department extends Action
         // Make sure we're using an integer for the term ID
         $term_id = (int)$department_id;
 
-        // Set the department taxonomy for the order (replace existing departments)
-        wp_set_object_terms($order->get_id(), $term_id, 'order_department', false);
-
+        // Add the department taxonomy to the order (append, don't replace)
+        wp_set_object_terms($order->get_id(), $term_id, 'order_department', true);
+        
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
     }
