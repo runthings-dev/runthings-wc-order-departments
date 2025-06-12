@@ -74,8 +74,8 @@ class Set_Order_Department extends Action
         // Make sure we're using an integer for the term ID
         $term_id = (int)$department_id;
 
-        // Set the department taxonomy for the order
-        wp_set_object_terms($order->get_id(), $term_id, 'order_department', false);
+        // Set the department taxonomy for the order (append, don't replace)
+        wp_set_object_terms($order->get_id(), $term_id, 'order_department', true);
 
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
