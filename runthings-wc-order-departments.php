@@ -50,6 +50,9 @@ class RunthingsWCOrderDepartments
 
     public function __construct()
     {
+        // Declare HPOS compatibility
+        add_action('before_woocommerce_init', [$this, 'declare_hpos_compatibility']);
+
         add_action('admin_init', [$this, 'setup_order_filters']);
         add_action('admin_menu', [$this, 'add_department_quick_access_menus']);
         add_action('admin_menu', [$this, 'add_departments_management_menu'], 99);
@@ -58,6 +61,13 @@ class RunthingsWCOrderDepartments
         new EmailInterceptor($this->taxonomy);
         new OrderDepartmentAssigner($this->taxonomy);
         new AutomateWooIntegration();
+    }
+
+    public function declare_hpos_compatibility(): void
+    {
+        if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+        }
     }
 
     public function setup_order_filters(): void
