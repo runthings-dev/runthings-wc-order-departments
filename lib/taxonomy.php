@@ -40,6 +40,9 @@ class Taxonomy
             'show_admin_column' => true,
             'hierarchical' => false,
             'rewrite' => false,
+            // HPOS support
+            'object_type' => ['shop_order'],
+            'supports' => ['custom_order_tables'],
         ]);
     }
 

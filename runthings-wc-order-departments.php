@@ -50,7 +50,7 @@ class RunthingsWCOrderDepartments
 
     public function __construct()
     {
-        add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
+        add_action('admin_init', [$this, 'setup_order_filters']);
         add_action('admin_menu', [$this, 'add_department_quick_access_menus']);
         add_action('admin_menu', [$this, 'add_departments_management_menu'], 99);
 
@@ -60,10 +60,45 @@ class RunthingsWCOrderDepartments
         new AutomateWooIntegration();
     }
 
-    public function add_admin_filter_dropdown(string $post_type): void
+    public function setup_order_filters(): void
     {
-        if ($post_type !== 'shop_order') return;
+        if ($this->is_hpos_enabled()) {
+            // HPOS orders page
+            add_action('woocommerce_order_list_table_restrict_manage_orders', [$this, 'add_hpos_filter_dropdown']);
+            add_filter('woocommerce_order_list_table_prepare_items_query_args', [$this, 'filter_hpos_orders_by_department']);
+        } else {
+            // Classic post-based orders page
+            add_action('restrict_manage_posts', [$this, 'add_admin_filter_dropdown']);
+        }
+    }
 
+    private function is_hpos_enabled(): bool
+    {
+        // Check if WooCommerce is loaded and HPOS classes exist
+        if (!class_exists('Automattic\WooCommerce\Utilities\OrderUtil')) {
+            return false;
+        }
+
+        // Check if HPOS is actually enabled
+        return \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled();
+    }
+
+    public function add_admin_filter_dropdown($post_type): void
+    {
+        if ($post_type !== 'shop_order') {
+            return;
+        }
+
+        $this->render_department_dropdown();
+    }
+
+    public function add_hpos_filter_dropdown(): void
+    {
+        $this->render_department_dropdown();
+    }
+
+    private function render_department_dropdown(): void
+    {
         $selected = $_GET[$this->taxonomy] ?? '';
 
         wp_dropdown_categories([
@@ -80,6 +115,30 @@ class RunthingsWCOrderDepartments
         ]);
     }
 
+    public function filter_hpos_orders_by_department($query_args)
+    {
+        if (isset($_GET[$this->taxonomy]) && !empty($_GET[$this->taxonomy])) {
+            $department_slug = sanitize_text_field($_GET[$this->taxonomy]);
+
+            // Get the term by slug
+            $term = get_term_by('slug', $department_slug, $this->taxonomy);
+            if ($term && !is_wp_error($term)) {
+                // Get order IDs that have this department taxonomy term
+                $order_ids = get_objects_in_term($term->term_id, $this->taxonomy);
+
+                if (!empty($order_ids)) {
+                    // For HPOS queries, use 'id' instead of 'post__in'
+                    $query_args['id'] = $order_ids;
+                } else {
+                    // No orders found with this department, return empty result
+                    $query_args['id'] = [0]; // This will return no results
+                }
+            }
+        }
+
+        return $query_args;
+    }
+
     public function add_department_quick_access_menus(): void
     {
         // Get all departments
@@ -89,11 +148,16 @@ class RunthingsWCOrderDepartments
             'orderby' => 'name',
             'order' => 'ASC',
         ]);
-        
+
         if (is_wp_error($departments) || empty($departments)) {
             return;
         }
-        
+
+        // Determine the correct URL based on HPOS status
+        $base_url = $this->is_hpos_enabled()
+            ? 'admin.php?page=wc-orders&'
+            : 'edit.php?post_type=shop_order&';
+
         // Loop through each department and add a submenu link
         foreach ($departments as $department) {
             add_submenu_page(
@@ -101,7 +165,7 @@ class RunthingsWCOrderDepartments
                 'Orders - ' . $department->name, // Page title
                 'Orders - ' . $department->name, // Menu title
                 'manage_woocommerce', // Capability
-                'edit.php?post_type=shop_order&'.$this->taxonomy.'=' . $department->slug, // URL with filter
+                $base_url . $this->taxonomy . '=' . $department->slug, // URL with filter
                 null // Callback function (null because we're just linking)
             );
         }

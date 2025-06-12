@@ -14,6 +14,7 @@ if (!defined('WPINC')) {
 class OrderDepartmentAssigner
 {
     private $taxonomy;
+
     private $department_matcher;
 
     public function __construct($taxonomy = 'order_department')
@@ -42,11 +43,22 @@ class OrderDepartmentAssigner
         } elseif ($order_id_or_object instanceof \WC_Order) {
             $order = $order_id_or_object;
         } else {
+            // Invalid input type
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('RunthingsWCOrderDepartments: Invalid input provided to assign_department_to_order.');
+            }
             return;
         }
 
         // Make sure we have a valid order
-        if (!$order || !($order instanceof \WC_Order)) {
+        if (!$order) {
+            // wc_get_order failed or a non-WC_Order object was passed that evaluated to false
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log(sprintf(
+                    'RunthingsWCOrderDepartments: Could not retrieve a valid WC_Order object for input: %s',
+                    is_scalar($order_id_or_object) ? $order_id_or_object : gettype($order_id_or_object)
+                ));
+            }
             return;
         }
 
@@ -58,10 +70,10 @@ class OrderDepartmentAssigner
             // Set the department taxonomy terms for the order
             // Use false for $append to replace any existing terms
             wp_set_object_terms($order->get_id(), $department_term_ids, $this->taxonomy, false);
-            
+
             // Ensure the term cache is refreshed
             clean_post_cache($order->get_id());
-            
+
             // Log the assignment for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 error_log(sprintf(
@@ -73,7 +85,10 @@ class OrderDepartmentAssigner
         } else {
             // No matching departments found, remove any existing department assignments
             wp_set_object_terms($order->get_id(), [], $this->taxonomy, false);
-            
+
+            // Ensure the term cache is refreshed
+            clean_post_cache($order->get_id());
+
             // Log for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 error_log(sprintf(
