@@ -45,6 +45,7 @@ class OrderDepartmentAssigner
         } else {
             // Invalid input type
             if (defined('WP_DEBUG') && WP_DEBUG) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log('RunthingsWCOrderDepartments: Invalid input provided to assign_department_to_order.');
             }
             return;
@@ -54,6 +55,7 @@ class OrderDepartmentAssigner
         if (!$order) {
             // wc_get_order failed or a non-WC_Order object was passed that evaluated to false
             if (defined('WP_DEBUG') && WP_DEBUG) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log(sprintf(
                     'RunthingsWCOrderDepartments: Could not retrieve a valid WC_Order object for input: %s',
                     is_scalar($order_id_or_object) ? $order_id_or_object : gettype($order_id_or_object)
@@ -82,6 +84,7 @@ class OrderDepartmentAssigner
 
             // Log the assignment for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log(sprintf(
                     'RunthingsWCOrderDepartments: Assigned departments %s to order #%d',
                     implode(', ', $department_term_ids),
@@ -100,6 +103,7 @@ class OrderDepartmentAssigner
 
             // Log for debugging (optional)
             if (defined('WP_DEBUG') && WP_DEBUG) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log(sprintf(
                     'RunthingsWCOrderDepartments: No matching departments found for order #%d, removed existing assignments',
                     $order->get_id()

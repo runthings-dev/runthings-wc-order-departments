@@ -109,7 +109,8 @@ class RunthingsWCOrderDepartments
 
     private function render_department_dropdown(): void
     {
-        $selected = $_GET[$this->taxonomy] ?? '';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is for admin filtering, not form submission
+        $selected = isset($_GET[$this->taxonomy]) ? sanitize_text_field(wp_unslash($_GET[$this->taxonomy])) : '';
 
         wp_dropdown_categories([
             'show_option_all' => 'All Departments',
@@ -127,8 +128,10 @@ class RunthingsWCOrderDepartments
 
     public function filter_hpos_orders_by_department($query_args)
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is for admin filtering, not form submission
         if (isset($_GET[$this->taxonomy]) && !empty($_GET[$this->taxonomy])) {
-            $department_slug = sanitize_text_field($_GET[$this->taxonomy]);
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is for admin filtering, not form submission
+            $department_slug = sanitize_text_field(wp_unslash($_GET[$this->taxonomy]));
 
             // Get the term by slug
             $term = get_term_by('slug', $department_slug, $this->taxonomy);

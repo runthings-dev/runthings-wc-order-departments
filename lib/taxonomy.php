@@ -63,12 +63,12 @@ class Taxonomy
         }
 
         // Enqueue Select2 scripts
-        wp_enqueue_style('woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css');
-        wp_enqueue_style('select2', WC()->plugin_url() . '/assets/css/select2.css');
-        
+        wp_enqueue_style('woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), WC()->version);
+        wp_enqueue_style('select2', WC()->plugin_url() . '/assets/css/select2.css', array(), WC()->version);
+
         wp_enqueue_script('jquery');
-        wp_enqueue_script('select2', WC()->plugin_url() . '/assets/js/select2/select2.full.min.js', array('jquery'));
-        wp_enqueue_script('wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select.min.js', array('jquery', 'select2'));
+        wp_enqueue_script('select2', WC()->plugin_url() . '/assets/js/select2/select2.full.min.js', array('jquery'), WC()->version, true);
+        wp_enqueue_script('wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select.min.js', array('jquery', 'select2'), WC()->version, true);
     }
     
     /**
@@ -109,14 +109,14 @@ class Taxonomy
     {
         ?>
         <div class="form-field">
-            <label for="<?php echo $this->meta_prefix; ?>department_emails"><?php _e('Email Addresses', 'runthings-wc-order-departments'); ?></label>
-            <input type="text" name="<?php echo $this->meta_prefix; ?>department_emails" id="<?php echo $this->meta_prefix; ?>department_emails" value="" />
-            <p class="description"><?php _e('Separate multiple emails with a semicolon (;)', 'runthings-wc-order-departments'); ?></p>
+            <label for="<?php echo esc_attr($this->meta_prefix); ?>department_emails"><?php esc_html_e('Email Addresses', 'runthings-wc-order-departments'); ?></label>
+            <input type="text" name="<?php echo esc_attr($this->meta_prefix); ?>department_emails" id="<?php echo esc_attr($this->meta_prefix); ?>department_emails" value="" />
+            <p class="description"><?php esc_html_e('Separate multiple emails with a semicolon (;)', 'runthings-wc-order-departments'); ?></p>
         </div>
-        
+
         <div class="form-field">
-            <label for="<?php echo $this->meta_prefix; ?>department_categories"><?php _e('Department Categories', 'runthings-wc-order-departments'); ?></label>
-            <select name="<?php echo $this->meta_prefix; ?>department_categories[]" id="<?php echo $this->meta_prefix; ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+            <label for="<?php echo esc_attr($this->meta_prefix); ?>department_categories"><?php esc_html_e('Department Categories', 'runthings-wc-order-departments'); ?></label>
+            <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
                 <?php
                 // Get product categories
                 $product_categories = get_terms(array(
@@ -132,27 +132,27 @@ class Taxonomy
                 }
                 ?>
             </select>
-            <p class="description"><?php _e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
+            <p class="description"><?php esc_html_e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
         </div>
-        
+
         <div class="form-field">
-            <label for="<?php echo $this->meta_prefix; ?>selected_products"><?php _e('Department Products', 'runthings-wc-order-departments'); ?></label>
-            <select name="<?php echo $this->meta_prefix; ?>selected_products[]" id="<?php echo $this->meta_prefix; ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+            <label for="<?php echo esc_attr($this->meta_prefix); ?>selected_products"><?php esc_html_e('Department Products', 'runthings-wc-order-departments'); ?></label>
+            <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
                 <?php
                 // Query for products
                 $products = wc_get_products(array(
                     'limit' => -1,
                     'status' => 'publish',
                 ));
-                
+
                 if (!empty($products)) {
                     foreach ($products as $product) {
-                        echo '<option value="' . esc_attr($product->get_id()) . '">' . esc_html($product->get_name()) . ' (#' . $product->get_id() . ')</option>';
+                        echo '<option value="' . esc_attr($product->get_id()) . '">' . esc_html($product->get_name()) . ' (#' . esc_html($product->get_id()) . ')</option>';
                     }
                 }
                 ?>
             </select>
-            <p class="description"><?php _e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+            <p class="description"><?php esc_html_e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
         </div>
         <?php
     }
@@ -177,19 +177,19 @@ class Taxonomy
         ?>
         <tr class="form-field">
             <th scope="row">
-                <label for="<?php echo $this->meta_prefix; ?>department_emails"><?php _e('Email Addresses', 'runthings-wc-order-departments'); ?></label>
+                <label for="<?php echo esc_attr($this->meta_prefix); ?>department_emails"><?php esc_html_e('Email Addresses', 'runthings-wc-order-departments'); ?></label>
             </th>
             <td>
-                <input type="text" name="<?php echo $this->meta_prefix; ?>department_emails" id="<?php echo $this->meta_prefix; ?>department_emails" value="<?php echo esc_attr($emails); ?>" />
-                <p class="description"><?php _e('Separate multiple emails with a semicolon (;)', 'runthings-wc-order-departments'); ?></p>
+                <input type="text" name="<?php echo esc_attr($this->meta_prefix); ?>department_emails" id="<?php echo esc_attr($this->meta_prefix); ?>department_emails" value="<?php echo esc_attr($emails); ?>" />
+                <p class="description"><?php esc_html_e('Separate multiple emails with a semicolon (;)', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
         <tr class="form-field">
             <th scope="row">
-                <label for="<?php echo $this->meta_prefix; ?>department_categories"><?php _e('Department Categories', 'runthings-wc-order-departments'); ?></label>
+                <label for="<?php echo esc_attr($this->meta_prefix); ?>department_categories"><?php esc_html_e('Department Categories', 'runthings-wc-order-departments'); ?></label>
             </th>
             <td>
-                <select name="<?php echo $this->meta_prefix; ?>department_categories[]" id="<?php echo $this->meta_prefix; ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
                     <?php
                     // Get product categories
                     $product_categories = get_terms(array(
@@ -201,36 +201,36 @@ class Taxonomy
                     if (!empty($product_categories) && !is_wp_error($product_categories)) {
                         foreach ($product_categories as $category) {
                             $selected = in_array($category->term_id, $selected_categories) ? 'selected="selected"' : '';
-                            echo '<option value="' . esc_attr($category->term_id) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
+                            echo '<option value="' . esc_attr($category->term_id) . '" ' . esc_attr($selected) . '>' . esc_html($category->name) . '</option>';
                         }
                     }
                     ?>
                 </select>
-                <p class="description"><?php _e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
+                <p class="description"><?php esc_html_e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
         <tr class="form-field">
             <th scope="row">
-                <label for="<?php echo $this->meta_prefix; ?>selected_products"><?php _e('Department Products', 'runthings-wc-order-departments'); ?></label>
+                <label for="<?php echo esc_attr($this->meta_prefix); ?>selected_products"><?php esc_html_e('Department Products', 'runthings-wc-order-departments'); ?></label>
             </th>
             <td>
-                <select name="<?php echo $this->meta_prefix; ?>selected_products[]" id="<?php echo $this->meta_prefix; ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
                     <?php
                     // Query for products
                     $products = wc_get_products(array(
                         'limit' => -1,
                         'status' => 'publish',
                     ));
-                    
+
                     if (!empty($products)) {
                         foreach ($products as $product) {
                             $selected = in_array($product->get_id(), $selected_products) ? 'selected="selected"' : '';
-                            echo '<option value="' . esc_attr($product->get_id()) . '" ' . $selected . '>' . esc_html($product->get_name()) . ' (#' . $product->get_id() . ')</option>';
+                            echo '<option value="' . esc_attr($product->get_id()) . '" ' . esc_attr($selected) . '>' . esc_html($product->get_name()) . ' (#' . esc_html($product->get_id()) . ')</option>';
                         }
                     }
                     ?>
                 </select>
-                <p class="description"><?php _e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+                <p class="description"><?php esc_html_e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
         <?php
@@ -241,18 +241,29 @@ class Taxonomy
      */
     public function save_term_fields($term_id): void
     {
+        // Verify nonce for security
+        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'update-tag_' . $term_id)) {
+            return;
+        }
+
+        // Check user capabilities
+        if (!current_user_can('manage_product_terms')) {
+            return;
+        }
+
         // Save email addresses
         if (isset($_POST[$this->meta_prefix . 'department_emails'])) {
+            $emails = sanitize_text_field(wp_unslash($_POST[$this->meta_prefix . 'department_emails']));
             update_term_meta(
                 $term_id,
                 $this->meta_prefix . 'department_emails',
-                sanitize_text_field($_POST[$this->meta_prefix . 'department_emails'])
+                $emails
             );
         }
-        
+
         // Save department categories
         if (isset($_POST[$this->meta_prefix . 'department_categories'])) {
-            $categories = array_map('absint', (array) $_POST[$this->meta_prefix . 'department_categories']);
+            $categories = array_map('absint', (array) wp_unslash($_POST[$this->meta_prefix . 'department_categories']));
             update_term_meta(
                 $term_id,
                 $this->meta_prefix . 'department_categories',
@@ -261,15 +272,15 @@ class Taxonomy
         } else {
             // If no categories are selected, save an empty array
             update_term_meta(
-                $term_id, 
-                $this->meta_prefix . 'department_categories', 
+                $term_id,
+                $this->meta_prefix . 'department_categories',
                 array()
             );
         }
-        
+
         // Save selected products
         if (isset($_POST[$this->meta_prefix . 'selected_products'])) {
-            $products = array_map('absint', (array) $_POST[$this->meta_prefix . 'selected_products']);
+            $products = array_map('absint', (array) wp_unslash($_POST[$this->meta_prefix . 'selected_products']));
             update_term_meta(
                 $term_id,
                 $this->meta_prefix . 'selected_products',
@@ -278,8 +289,8 @@ class Taxonomy
         } else {
             // If no products are selected, save an empty array
             update_term_meta(
-                $term_id, 
-                $this->meta_prefix . 'selected_products', 
+                $term_id,
+                $this->meta_prefix . 'selected_products',
                 array()
             );
         }
