@@ -241,14 +241,19 @@ class Taxonomy
      */
     public function save_term_fields($term_id): void
     {
-        // Verify nonce for security
-        if (!isset($_POST['_wpnonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'update-tag_' . $term_id)) {
+        // Check user capabilities first
+        if (!current_user_can('manage_product_terms')) {
             return;
         }
 
-        // Check user capabilities
-        if (!current_user_can('manage_product_terms')) {
-            return;
+        // Verify nonce for security using WordPress standard method
+        // WordPress uses different nonce actions for creating vs editing terms
+        if (isset($_POST['action']) && $_POST['action'] === 'add-tag') {
+            // For new terms: check 'add-tag' action
+            check_admin_referer('add-tag', '_wpnonce_add-tag');
+        } else {
+            // For editing terms: check 'update-tag_ID' action
+            check_admin_referer('update-tag_' . $term_id);
         }
 
         // Save email addresses
