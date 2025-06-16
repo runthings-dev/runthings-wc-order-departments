@@ -243,6 +243,11 @@ class Taxonomy
             return;
         }
 
+        // Skip processing for quick edit operations since we don't have quick edit fields
+        if (isset($_POST['action']) && $_POST['action'] === 'inline-save-tax') {
+            return;
+        }
+
         // Verify nonce for security using WordPress standard method
         // WordPress uses different nonce actions for creating vs editing terms
         if (isset($_POST['action']) && $_POST['action'] === 'add-tag') {
