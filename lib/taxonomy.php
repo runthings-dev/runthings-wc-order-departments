@@ -304,7 +304,7 @@ class Taxonomy
     public function add_custom_columns($columns)
     {
         // Only add columns for our taxonomy
-        if (!$this->is_current_taxonomy_screen()) {
+        if (!$this->is_current_taxonomy_screen() && !$this->is_ajax_for_our_taxonomy()) {
             return $columns;
         }
 
@@ -328,7 +328,7 @@ class Taxonomy
     public function display_custom_column($content, $column_name, $term_id)
     {
         // Only handle our taxonomy
-        if (!$this->is_current_taxonomy_screen()) {
+        if (!$this->is_current_taxonomy_screen() && !$this->is_ajax_for_our_taxonomy()) {
             return $content;
         }
 
@@ -467,6 +467,16 @@ class Taxonomy
         }
 
         return $hidden;
+    }
+
+    /**
+     * Check if this is an AJAX request for our taxonomy
+     */
+    private function is_ajax_for_our_taxonomy()
+    {
+        return wp_doing_ajax() &&
+               isset($_POST['taxonomy']) &&
+               $_POST['taxonomy'] === $this->taxonomy;
     }
 
     /**
