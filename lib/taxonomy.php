@@ -154,6 +154,33 @@ class Taxonomy
             </select>
             <p class="description"><?php esc_html_e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
         </div>
+
+        <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            // Hook into AJAX success to clear Select2 fields after successful term creation
+            $(document).ajaxSuccess(function(event, xhr, settings) {
+                // Check if this was a successful add-tag request
+                if (settings.data && settings.data.indexOf('action=add-tag') !== -1) {
+                    // Check for term_id in the XML response - most reliable success indicator
+                    if (xhr.responseText && xhr.responseText.indexOf('<term_id><![CDATA[') !== -1) {
+                        var termIdStart = xhr.responseText.indexOf('<term_id><![CDATA[') + 18;
+                        var termIdEnd = xhr.responseText.indexOf(']]></term_id>');
+
+                        if (termIdEnd > termIdStart) {
+                            var termId = xhr.responseText.substring(termIdStart, termIdEnd);
+
+                            // If we got a numeric term ID, the term was successfully created
+                            if (termId && !isNaN(termId) && parseInt(termId) > 0) {
+                                // Clear our custom Select2 fields
+                                $('#<?php echo esc_js($this->meta_prefix); ?>department_categories').val(null).trigger('change');
+                                $('#<?php echo esc_js($this->meta_prefix); ?>selected_products').val(null).trigger('change');
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        </script>
         <?php
     }
     
