@@ -45,6 +45,10 @@ class Clear_Order_Departments extends Action
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
 
+        // Add order note (private note to avoid triggering other AutomateWoo workflows)
+        $note = sprintf(__('[AutomateWoo] Workflow #%s cleared all departments', 'runthings-wc-order-departments'), $this->workflow->get_id());
+        $order->add_order_note($note, 0, false);
+
         // Fire trigger for departments changed
         do_action('runthings_wc_order_departments_changed', $order->get_id());
     }

@@ -80,6 +80,14 @@ class Remove_Order_Department extends Action
         // Ensure the term cache is refreshed
         clean_post_cache($order->get_id());
 
+        // Get department name for the note
+        $department_term = get_term($term_id, 'order_department');
+        $department_name = $department_term && !is_wp_error($department_term) ? $department_term->name : "ID: $term_id";
+
+        // Add order note (private note to avoid triggering other AutomateWoo workflows)
+        $note = sprintf(__('[AutomateWoo] Workflow #%s removed department: %s', 'runthings-wc-order-departments'), $this->workflow->get_id(), $department_name);
+        $order->add_order_note($note, 0, false);
+
         // Fire trigger for department removed
         do_action('runthings_wc_order_department_removed', $order->get_id(), $term_id);
         do_action('runthings_wc_order_departments_changed', $order->get_id());
