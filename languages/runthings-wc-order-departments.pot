@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Order Departments for WooCommerce 0.3.0\n"
+"Project-Id-Version: Order Departments for WooCommerce 0.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-16T10:06:01+00:00\n"
+"POT-Creation-Date: 2025-06-16T11:01:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: runthings-wc-order-departments\n"
@@ -51,9 +51,6 @@ msgstr ""
 #: lib/actions/aw-action-clear-order-departments.php:21
 #: lib/actions/aw-action-remove-order-department.php:22
 #: lib/actions/aw-action-set-order-department.php:22
-#: lib/rules/aw-rule-order-department-count.php:22
-#: lib/rules/aw-rule-order-department-is.php:21
-#: lib/rules/aw-rule-order-has-department.php:21
 #: lib/triggers/aw-trigger-order-department-added.php:22
 #: lib/triggers/aw-trigger-order-department-changed.php:21
 #: lib/triggers/aw-trigger-order-department-removed.php:22
@@ -63,10 +60,13 @@ msgstr ""
 #: lib/actions/aw-action-add-order-department.php:32
 #: lib/actions/aw-action-remove-order-department.php:32
 #: lib/actions/aw-action-set-order-department.php:32
-#: lib/rules/aw-rule-order-has-department.php:31
 #: lib/triggers/aw-trigger-order-department-added.php:32
 #: lib/triggers/aw-trigger-order-department-removed.php:32
 msgid "Department"
+msgstr ""
+
+#: lib/actions/aw-action-add-order-department.php:88
+msgid "[AutomateWoo] Workflow #%s added department: %s"
 msgstr ""
 
 #: lib/actions/aw-action-clear-order-departments.php:19
@@ -77,12 +77,20 @@ msgstr ""
 msgid "Remove all departments from the order."
 msgstr ""
 
+#: lib/actions/aw-action-clear-order-departments.php:49
+msgid "[AutomateWoo] Workflow #%s cleared all departments"
+msgstr ""
+
 #: lib/actions/aw-action-remove-order-department.php:20
 msgid "Remove Order Department"
 msgstr ""
 
 #: lib/actions/aw-action-remove-order-department.php:21
 msgid "Remove a department from the order."
+msgstr ""
+
+#: lib/actions/aw-action-remove-order-department.php:88
+msgid "[AutomateWoo] Workflow #%s removed department: %s"
 msgstr ""
 
 #: lib/actions/aw-action-set-order-department.php:20
@@ -93,78 +101,20 @@ msgstr ""
 msgid "Set a department for the order (replaces all existing departments)."
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-count.php:21
-msgid "Order Department Count"
+#: lib/actions/aw-action-set-order-department.php:88
+msgid "[AutomateWoo] Workflow #%s set department to: %s"
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-count.php:32
-#: lib/rules/aw-rule-order-department-is.php:41
-#: lib/rules/aw-rule-order-has-department.php:40
-msgid "Compare"
+#: lib/rules/aw-rule-order-department-count.php:22
+msgid "Order - Department Count"
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-count.php:34
-msgid "is equal to"
+#: lib/rules/aw-rule-order-department-is.php:22
+msgid "Order - Department Is"
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-count.php:35
-msgid "is not equal to"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-count.php:36
-msgid "is greater than"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-count.php:37
-msgid "is less than"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-count.php:38
-msgid "is greater than or equal to"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-count.php:39
-msgid "is less than or equal to"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-count.php:47
-msgid "Count"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-is.php:20
-msgid "Order Department Is"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-is.php:31
-msgid "Department(s)"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-is.php:32
-msgid "Order must have exactly these departments (no more, no less)."
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-is.php:43
-msgid "is exactly"
-msgstr ""
-
-#: lib/rules/aw-rule-order-department-is.php:44
-msgid "is not exactly"
-msgstr ""
-
-#: lib/rules/aw-rule-order-has-department.php:20
-msgid "Order Has Department"
-msgstr ""
-
-#: lib/rules/aw-rule-order-has-department.php:42
-msgid "Has any of"
-msgstr ""
-
-#: lib/rules/aw-rule-order-has-department.php:43
-msgid "Has all of"
-msgstr ""
-
-#: lib/rules/aw-rule-order-has-department.php:44
-msgid "Has none of"
+#: lib/rules/aw-rule-order-has-department.php:22
+msgid "Order - Has Department"
 msgstr ""
 
 #: lib/taxonomy.php:95
