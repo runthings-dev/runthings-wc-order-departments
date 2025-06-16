@@ -4,7 +4,13 @@ Automatically assign orders to departments based on products and categories, wit
 
 ## Description
 
-WooCommerce Order Departments enables large organizations to automatically route orders to the appropriate departments based on the products or categories in each order. Perfect for companies with multiple departments handling different product lines.
+WooCommerce Order Departments enables large organizations to automatically route orders to the appropriate departments based on the products or the categories of the products in each order.
+
+For each department, a quick access menu is created below the WooCommerce.
+
+The built in WooCommerce order emails can be re-routed so that only the relevant dept gets the order notification thats relevant to them.
+
+The AutomateWoo integration then allows for further workflow automation based on department assignments.
 
 ## Features
 
@@ -16,6 +22,18 @@ WooCommerce Order Departments enables large organizations to automatically route
 - **HPOS Compatible**: Full support for WooCommerce High-Performance Order Storage
 
 ## AutomateWoo Integration
+
+This plugin provides complete AutomateWoo integration, allowing you to create sophisticated workflows based on department assignments. The integration includes custom actions, triggers, and rules specifically designed for department-based automation.
+
+**Department Assignment Timing**: This plugin assigns departments immediately during order processing using the product/category rules you configure in the taxonomy screens. This happens early enough to affect WooCommerce's core systems like email sending. AutomateWoo workflows run later in the process, so relying solely on AutomateWoo actions for department assignment would be too late to override WooCommerce's built-in emails and other core functionality.
+
+**Using AutomateWoo for Email Handling**: If you prefer to handle all emails through AutomateWoo workflows instead of the built-in email routing:
+
+1. Leave department email addresses blank for each department
+2. Disable WooCommerce's default admin emails
+3. Use AutomateWoo's email actions with department triggers for full control
+
+This approach gives you the flexibility to use AutomateWoo's advanced email features (templates, conditions, delays, etc.) while still benefiting from automatic department assignment.
 
 ### Actions
 
@@ -47,9 +65,9 @@ WooCommerce Order Departments enables large organizations to automatically route
 
 1. Upload the plugin files to `/wp-content/plugins/runthings-wc-order-departments/`
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to WooCommerce > Order Departments to configure departments
+3. Go to `WooCommerce` > `Order Departments` to configure departments
 4. Assign products/categories to departments
-5. Set up email addresses for each department
+5. Set up email addresses for each department (optional)
 
 ## Configuration
 
@@ -64,7 +82,18 @@ WooCommerce Order Departments enables large organizations to automatically route
 
 ### Email Routing
 
-Orders will automatically send emails to the department's configured email addresses based on the assigned department(s).
+**Important**: Email routing behavior depends on whether the order's assigned departments have email addresses configured:
+
+- **If the order's assigned departments have email addresses**: The plugin will override WooCommerce admin emails and send them to the department's email addresses instead
+- **If the order's assigned departments have NO email addresses**: The plugin does not attempt to override emails and WooCommerce emails work normally
+- **If WooCommerce emails are disabled**: No emails will be sent regardless of department email configuration
+
+**Notes**:
+
+- Each department can have multiple email addresses (semicolon-separated)
+- You can simply set the default WooCommerce admin email address in each department to maintain the same recipient while enabling department-based routing
+- Email routing is determined per-order based on that order's specific department assignments
+- If the same email address is listed in multiple departments assigned to an order, only one email will be sent to that address (duplicates are automatically removed)
 
 ### AutomateWoo Workflows
 
@@ -77,10 +106,36 @@ Create workflows using the department triggers and rules to:
 
 ## Requirements
 
-- WordPress 5.0+
-- WooCommerce 6.0+
+- WordPress 6.3+
+- WooCommerce 8.2+
 - PHP 7.4+
 - AutomateWoo (optional, for workflow automation)
+
+## Frequently Asked Questions
+
+### How does automatic department assignment work?
+
+Orders are automatically assigned to departments based on the products and categories in the order. The plugin checks each order item against the configured department rules and assigns the appropriate departments.
+
+### Can an order be assigned to multiple departments?
+
+Yes, orders can be assigned to multiple departments if they contain products from different department categories or have specific products assigned to different departments.
+
+### Do I need AutomateWoo for this plugin to work?
+
+No, AutomateWoo is optional. The core functionality (automatic assignment, email routing, admin filtering) works without AutomateWoo. The AutomateWoo integration provides additional workflow automation capabilities.
+
+### Is this compatible with WooCommerce HPOS?
+
+Yes, this plugin is fully compatible with WooCommerce High-Performance Order Storage (HPOS) and will work with both traditional and HPOS order storage methods.
+
+### Can I manually assign departments to orders?
+
+Yes, you can manually assign or modify department assignments from the order edit screen in WooCommerce admin.
+
+### What happens to existing orders when I install the plugin?
+
+Existing orders will not be automatically assigned to departments. Only new orders (or manually updated existing orders) will have department assignments based on your configuration. You can set up a manual workflow in AutomateWoo to backfill department assignments for existing orders if needed.
 
 ## Changelog
 
@@ -93,11 +148,13 @@ Create workflows using the department triggers and rules to:
 - Complete AutomateWoo integration
 - HPOS compatibility
 
-## Support
+## Additional Notes
 
-For support and feature requests, please check out the github repository:
+Built by Matthew Harris of runthings.dev, copyright 2025.
 
-[]()
+Visit [runthings.dev](https://runthings.dev/) for more WordPress plugins and resources.
+
+Contribute or report issues at [GitHub repository](https://github.com/runthings-dev/runthings-wc-order-departments).
 
 ## License
 
