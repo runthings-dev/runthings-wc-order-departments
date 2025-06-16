@@ -2,59 +2,34 @@
 
 namespace RunthingsWCOrderDepartments\Rules;
 
-use AutomateWoo\Rule;
-use AutomateWoo\Fields;
+use AutomateWoo\Rules\Rule;
+use AutomateWoo\DataTypes\DataTypes;
 
 /**
  * Rule to check if an order's departments exactly match a set
  */
 class Order_Department_Is extends Rule
 {
-    public $data_item = 'order';
+    public $data_item = DataTypes::ORDER;
+
+    public $type = 'select';
 
     /**
      * Setup the rule details
      */
     public function init()
     {
-        $this->title = __('Order Department Is', 'runthings-wc-order-departments');
-        $this->group = __('Order', 'runthings-wc-order-departments');
+        $this->title = __('Order - Department Is', 'runthings-wc-order-departments');
+        $this->compare_types = $this->get_is_or_not_compare_types();
     }
 
     /**
-     * Add fields for the rule
+     * Load select choices for rule
      */
-    public function load_fields()
-    {
-        $department_field = new Fields\Select();
-        $department_field->set_name('department');
-        $department_field->set_title(__('Department(s)', 'runthings-wc-order-departments'));
-        $department_field->set_description(__('Order must have exactly these departments (no more, no less).', 'runthings-wc-order-departments'));
-        $department_field->set_multiple(true);
-        $department_field->set_options($this->get_department_options());
-        $department_field->set_required(true);
-
-        $this->add_field($department_field);
-
-        $compare_field = new Fields\Select();
-        $compare_field->set_name('compare');
-        $compare_field->set_title(__('Compare', 'runthings-wc-order-departments'));
-        $compare_field->set_options([
-            'is' => __('is exactly', 'runthings-wc-order-departments'),
-            'is_not' => __('is not exactly', 'runthings-wc-order-departments'),
-        ]);
-        $compare_field->set_required(true);
-
-        $this->add_field($compare_field);
-    }
-
-    /**
-     * Get available department options
-     */
-    private function get_department_options()
+    public function load_select_choices()
     {
         $options = [];
-        
+
         $terms = get_terms([
             'taxonomy' => 'order_department',
             'hide_empty' => false,
@@ -72,7 +47,7 @@ class Order_Department_Is extends Rule
     /**
      * Validate the rule
      */
-    public function validate($order, $compare, $expected_departments)
+    public function validate($order, $compare, $value)
     {
         if (!$order instanceof \WC_Order) {
             return false;
@@ -84,15 +59,10 @@ class Order_Department_Is extends Rule
             $order_departments = [];
         }
 
-        // Convert expected departments to array if it's not already
-        if (!is_array($expected_departments)) {
-            $expected_departments = [$expected_departments];
-        }
+        // Convert to strings and sort for exact comparison
+        $order_departments = array_map('strval', $order_departments);
+        $expected_departments = array_map('strval', (array) $value);
 
-        // Convert to integers and sort for comparison
-        $order_departments = array_map('intval', $order_departments);
-        $expected_departments = array_map('intval', $expected_departments);
-        
         sort($order_departments);
         sort($expected_departments);
 
