@@ -2,21 +2,21 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Order Departments 0.2.0\n"
+"Project-Id-Version: Order Departments for WooCommerce 0.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-01T07:48:40+00:00\n"
+"POT-Creation-Date: 2025-06-16T10:06:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: runthings-wc-order-departments\n"
 
 #. Plugin Name of the plugin
 #: runthings-wc-order-departments.php
-msgid "WooCommerce Order Departments"
+msgid "Order Departments for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -26,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 #: runthings-wc-order-departments.php
-msgid "Split WooCommerce Orders by Departments"
+msgid "Split WooCommerce Orders by Departments, with AutomateWoo support"
 msgstr ""
 
 #. Author of the plugin
@@ -39,52 +39,221 @@ msgstr ""
 msgid "https://runthings.dev/"
 msgstr ""
 
+#: lib/actions/aw-action-add-order-department.php:20
+msgid "Add Order Department"
+msgstr ""
+
+#: lib/actions/aw-action-add-order-department.php:21
+msgid "Add a department to the order (keeps existing departments)."
+msgstr ""
+
+#: lib/actions/aw-action-add-order-department.php:22
+#: lib/actions/aw-action-clear-order-departments.php:21
+#: lib/actions/aw-action-remove-order-department.php:22
+#: lib/actions/aw-action-set-order-department.php:22
+#: lib/rules/aw-rule-order-department-count.php:22
+#: lib/rules/aw-rule-order-department-is.php:21
+#: lib/rules/aw-rule-order-has-department.php:21
+#: lib/triggers/aw-trigger-order-department-added.php:22
+#: lib/triggers/aw-trigger-order-department-changed.php:21
+#: lib/triggers/aw-trigger-order-department-removed.php:22
+msgid "Order"
+msgstr ""
+
+#: lib/actions/aw-action-add-order-department.php:32
+#: lib/actions/aw-action-remove-order-department.php:32
+#: lib/actions/aw-action-set-order-department.php:32
+#: lib/rules/aw-rule-order-has-department.php:31
+#: lib/triggers/aw-trigger-order-department-added.php:32
+#: lib/triggers/aw-trigger-order-department-removed.php:32
+msgid "Department"
+msgstr ""
+
+#: lib/actions/aw-action-clear-order-departments.php:19
+msgid "Clear Order Departments"
+msgstr ""
+
+#: lib/actions/aw-action-clear-order-departments.php:20
+msgid "Remove all departments from the order."
+msgstr ""
+
+#: lib/actions/aw-action-remove-order-department.php:20
+msgid "Remove Order Department"
+msgstr ""
+
+#: lib/actions/aw-action-remove-order-department.php:21
+msgid "Remove a department from the order."
+msgstr ""
+
 #: lib/actions/aw-action-set-order-department.php:20
 msgid "Set Order Department"
 msgstr ""
 
 #: lib/actions/aw-action-set-order-department.php:21
-msgid "Set a department for the order."
+msgid "Set a department for the order (replaces all existing departments)."
 msgstr ""
 
-#: lib/actions/aw-action-set-order-department.php:22
-msgid "Order"
+#: lib/rules/aw-rule-order-department-count.php:21
+msgid "Order Department Count"
 msgstr ""
 
-#: lib/actions/aw-action-set-order-department.php:32
-msgid "Department"
+#: lib/rules/aw-rule-order-department-count.php:32
+#: lib/rules/aw-rule-order-department-is.php:41
+#: lib/rules/aw-rule-order-has-department.php:40
+msgid "Compare"
 msgstr ""
 
-#: lib/taxonomy.php:94
+#: lib/rules/aw-rule-order-department-count.php:34
+msgid "is equal to"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:35
+msgid "is not equal to"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:36
+msgid "is greater than"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:37
+msgid "is less than"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:38
+msgid "is greater than or equal to"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:39
+msgid "is less than or equal to"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-count.php:47
+msgid "Count"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-is.php:20
+msgid "Order Department Is"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-is.php:31
+msgid "Department(s)"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-is.php:32
+msgid "Order must have exactly these departments (no more, no less)."
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-is.php:43
+msgid "is exactly"
+msgstr ""
+
+#: lib/rules/aw-rule-order-department-is.php:44
+msgid "is not exactly"
+msgstr ""
+
+#: lib/rules/aw-rule-order-has-department.php:20
+msgid "Order Has Department"
+msgstr ""
+
+#: lib/rules/aw-rule-order-has-department.php:42
+msgid "Has any of"
+msgstr ""
+
+#: lib/rules/aw-rule-order-has-department.php:43
+msgid "Has all of"
+msgstr ""
+
+#: lib/rules/aw-rule-order-has-department.php:44
+msgid "Has none of"
+msgstr ""
+
+#: lib/taxonomy.php:95
 msgid "Select..."
 msgstr ""
 
-#: lib/taxonomy.php:111
-#: lib/taxonomy.php:179
+#: lib/taxonomy.php:107
+#: lib/taxonomy.php:177
+#: lib/taxonomy.php:320
 msgid "Email Addresses"
 msgstr ""
 
-#: lib/taxonomy.php:113
-#: lib/taxonomy.php:183
+#: lib/taxonomy.php:109
+#: lib/taxonomy.php:181
 msgid "Separate multiple emails with a semicolon (;)"
 msgstr ""
 
-#: lib/taxonomy.php:117
-#: lib/taxonomy.php:188
+#: lib/taxonomy.php:113
+#: lib/taxonomy.php:186
 msgid "Department Categories"
 msgstr ""
 
-#: lib/taxonomy.php:134
-#: lib/taxonomy.php:208
-msgid "Select product categories associated with this department"
+#: lib/taxonomy.php:130
+#: lib/taxonomy.php:206
+msgid "Select product categories associated with this department. Note: Only the specifically selected categories will be matched - subcategories are not automatically included."
 msgstr ""
 
-#: lib/taxonomy.php:138
-#: lib/taxonomy.php:213
+#: lib/taxonomy.php:134
+#: lib/taxonomy.php:211
 msgid "Department Products"
 msgstr ""
 
-#: lib/taxonomy.php:154
-#: lib/taxonomy.php:232
-msgid "Select specific products associated with this department"
+#: lib/taxonomy.php:150
+#: lib/taxonomy.php:230
+msgid "Select specific products associated with this department. Use this for products not covered by the selected categories above."
+msgstr ""
+
+#: lib/taxonomy.php:321
+msgid "Categories"
+msgstr ""
+
+#: lib/taxonomy.php:322
+msgid "Products"
+msgstr ""
+
+#: lib/taxonomy.php:446
+msgid "Unknown Product"
+msgstr ""
+
+#: lib/taxonomy.php:455
+msgid "First product: %s"
+msgstr ""
+
+#: lib/taxonomy.php:456
+msgid "%d product"
+msgid_plural "%d products"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/triggers/aw-trigger-order-department-added.php:20
+msgid "Order Department Added"
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-added.php:21
+msgid "Triggers when a department is added to an order."
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-added.php:33
+#: lib/triggers/aw-trigger-order-department-removed.php:33
+msgid "Leave blank to trigger for any department."
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-added.php:45
+#: lib/triggers/aw-trigger-order-department-removed.php:45
+msgid "Any department"
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-changed.php:19
+msgid "Order Department Changed"
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-changed.php:20
+msgid "Triggers when order departments are modified in any way."
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-removed.php:20
+msgid "Order Department Removed"
+msgstr ""
+
+#: lib/triggers/aw-trigger-order-department-removed.php:21
+msgid "Triggers when a department is removed from an order."
 msgstr ""
