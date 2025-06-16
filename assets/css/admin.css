@@ -1,0 +1,30 @@
+/**
+ * Admin styles for Order Departments plugin
+ */
+
+/* Column widths for taxonomy list table */
+.wp-list-table .column-department_emails,
+.wp-list-table .column-department_categories,
+.wp-list-table .column-department_products {
+  width: 15%;
+}
+
+/* Count styling for multiple items */
+.wp-list-table .column-department_emails .count,
+.wp-list-table .column-department_categories .count,
+.wp-list-table .column-department_products .count {
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Screen options styling */
+.metabox-prefs label {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 5px;
+}
+
+/* Select2 field styling */
+.runthings-select2-field {
+  width: 100%;
+}

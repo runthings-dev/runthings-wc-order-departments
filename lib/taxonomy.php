@@ -24,11 +24,9 @@ class Taxonomy
         add_action("created_{$taxonomy}", [$this, 'save_term_fields']);
         add_action("edited_{$taxonomy}", [$this, 'save_term_fields']);
         
-        // Enqueue scripts and styles for admin - use more specific hooks
+        // Enqueue scripts and styles for admin
         add_action('admin_print_scripts-edit-tags.php', [$this, 'enqueue_admin_scripts']);
         add_action('admin_print_scripts-term.php', [$this, 'enqueue_admin_scripts']);
-        add_action('admin_footer-edit-tags.php', [$this, 'admin_footer_scripts']);
-        add_action('admin_footer-term.php', [$this, 'admin_footer_scripts']);
 
         // Add custom columns to screen options
         add_filter("manage_edit-{$taxonomy}_columns", [$this, 'add_custom_columns']);
@@ -61,13 +59,13 @@ class Taxonomy
         if (!$screen || $screen->taxonomy !== $this->taxonomy) {
             return;
         }
-        
+
         // Ensure WooCommerce is available
         if (!function_exists('WC')) {
             return;
         }
 
-        // Enqueue Select2 scripts
+        // Enqueue WooCommerce Select2 dependencies
         wp_enqueue_style('woocommerce_admin_styles', WC()->plugin_url() . '/assets/css/admin.css', array(), WC()->version);
         wp_enqueue_style('select2', WC()->plugin_url() . '/assets/css/select2.css', array(), WC()->version);
 
@@ -75,39 +73,28 @@ class Taxonomy
         wp_enqueue_script('select2', WC()->plugin_url() . '/assets/js/select2/select2.full.min.js', array('jquery'), WC()->version, true);
         wp_enqueue_script('wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select.min.js', array('jquery', 'select2'), WC()->version, true);
 
-        // Add custom styles for our columns
-        wp_add_inline_style('woocommerce_admin_styles', $this->get_column_styles());
-    }
-    
-    /**
-     * Add inline scripts to the admin footer
-     */
-    public function admin_footer_scripts(): void
-    {
-        // Get the taxonomy from the URL
-        $screen = get_current_screen();
-        if (!$screen || $screen->taxonomy !== $this->taxonomy) {
-            return;
-        }
-        
-        ?>
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {               
-                // Force initialize Select2 after page load
-                $('.wc-enhanced-select').each(function() {
-                    if ($(this).data('select2')) {
-                        $(this).select2('destroy');
-                    }
-                    
-                    $(this).select2({
-                        placeholder: '<?php echo esc_js(__('Select...', 'runthings-wc-order-departments')); ?>',
-                        allowClear: true,
-                        width: '100%'
-                    });
-                });
-            });
-        </script>
-        <?php
+        // Enqueue our custom admin styles
+        wp_enqueue_style(
+            'runthings-order-departments-admin',
+            RUNTHINGS_WC_ORDER_DEPARTMENTS_URL . 'assets/css/admin.css',
+            array('woocommerce_admin_styles'),
+            RUNTHINGS_WC_ORDER_DEPARTMENTS_VERSION
+        );
+
+        // Enqueue our custom admin script
+        wp_enqueue_script(
+            'runthings-order-departments-admin',
+            RUNTHINGS_WC_ORDER_DEPARTMENTS_URL . 'assets/js/admin.js',
+            array('jquery', 'select2', 'wc-enhanced-select'),
+            RUNTHINGS_WC_ORDER_DEPARTMENTS_VERSION,
+            true
+        );
+
+        // Localize script with data needed by JavaScript
+        wp_localize_script('runthings-order-departments-admin', 'runthingsOrderDepartments', array(
+            'selectPlaceholder' => __('Select...', 'runthings-wc-order-departments'),
+            'metaPrefix' => $this->meta_prefix,
+        ));
     }
     
     /**
@@ -124,7 +111,7 @@ class Taxonomy
 
         <div class="form-field">
             <label for="<?php echo esc_attr($this->meta_prefix); ?>department_categories"><?php esc_html_e('Department Categories', 'runthings-wc-order-departments'); ?></label>
-            <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+            <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select runthings-select2-field" multiple="multiple" >
                 <?php
                 // Get product categories
                 $product_categories = get_terms(array(
@@ -145,7 +132,7 @@ class Taxonomy
 
         <div class="form-field">
             <label for="<?php echo esc_attr($this->meta_prefix); ?>selected_products"><?php esc_html_e('Department Products', 'runthings-wc-order-departments'); ?></label>
-            <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+            <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select runthings-select2-field" multiple="multiple" >
                 <?php
                 // Query for products
                 $products = wc_get_products(array(
@@ -163,32 +150,7 @@ class Taxonomy
             <p class="description"><?php esc_html_e('Select specific products associated with this department. Use this for products not covered by the selected categories above.', 'runthings-wc-order-departments'); ?></p>
         </div>
 
-        <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            // Hook into AJAX success to clear Select2 fields after successful term creation
-            $(document).ajaxSuccess(function(event, xhr, settings) {
-                // Check if this was a successful add-tag request
-                if (settings.data && settings.data.indexOf('action=add-tag') !== -1) {
-                    // Check for term_id in the XML response - most reliable success indicator
-                    if (xhr.responseText && xhr.responseText.indexOf('<term_id><![CDATA[') !== -1) {
-                        var termIdStart = xhr.responseText.indexOf('<term_id><![CDATA[') + 18;
-                        var termIdEnd = xhr.responseText.indexOf(']]></term_id>');
 
-                        if (termIdEnd > termIdStart) {
-                            var termId = xhr.responseText.substring(termIdStart, termIdEnd);
-
-                            // If we got a numeric term ID, the term was successfully created
-                            if (termId && !isNaN(termId) && parseInt(termId) > 0) {
-                                // Clear our custom Select2 fields
-                                $('#<?php echo esc_js($this->meta_prefix); ?>department_categories').val(null).trigger('change');
-                                $('#<?php echo esc_js($this->meta_prefix); ?>selected_products').val(null).trigger('change');
-                            }
-                        }
-                    }
-                }
-            });
-        });
-        </script>
         <?php
     }
     
@@ -224,7 +186,7 @@ class Taxonomy
                 <label for="<?php echo esc_attr($this->meta_prefix); ?>department_categories"><?php esc_html_e('Department Categories', 'runthings-wc-order-departments'); ?></label>
             </th>
             <td>
-                <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                <select name="<?php echo esc_attr($this->meta_prefix); ?>department_categories[]" id="<?php echo esc_attr($this->meta_prefix); ?>department_categories" class="wc-enhanced-select runthings-select2-field" multiple="multiple" >
                     <?php
                     // Get product categories
                     $product_categories = get_terms(array(
@@ -249,7 +211,7 @@ class Taxonomy
                 <label for="<?php echo esc_attr($this->meta_prefix); ?>selected_products"><?php esc_html_e('Department Products', 'runthings-wc-order-departments'); ?></label>
             </th>
             <td>
-                <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select" multiple="multiple" style="width: 100%;">
+                <select name="<?php echo esc_attr($this->meta_prefix); ?>selected_products[]" id="<?php echo esc_attr($this->meta_prefix); ?>selected_products" class="wc-enhanced-select runthings-select2-field" multiple="multiple" >
                     <?php
                     // Query for products
                     $products = wc_get_products(array(
@@ -505,40 +467,6 @@ class Taxonomy
         }
 
         return $hidden;
-    }
-
-    /**
-     * Get custom CSS styles for our columns
-     */
-    private function get_column_styles()
-    {
-        return '
-            .wp-list-table .column-department_emails,
-            .wp-list-table .column-department_categories,
-            .wp-list-table .column-department_products {
-                width: 15%;
-            }
-
-            .wp-list-table .column-department_emails .count,
-            .wp-list-table .column-department_categories .count,
-            .wp-list-table .column-department_products .count {
-                color: #666;
-                font-size: 0.9em;
-            }
-
-            .wp-list-table .column-department_emails .na,
-            .wp-list-table .column-department_categories .na,
-            .wp-list-table .column-department_products .na {
-                color: #999;
-            }
-
-            /* Screen options styling */
-            .metabox-prefs label {
-                display: inline-block;
-                margin-right: 15px;
-                margin-bottom: 5px;
-            }
-        ';
     }
 
     /**
