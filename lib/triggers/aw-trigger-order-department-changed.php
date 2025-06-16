@@ -41,7 +41,7 @@ class Order_Department_Changed extends Trigger
     /**
      * Register hooks for this trigger
      */
-    public function init()
+    public function register_hooks()
     {
         add_action('runthings_wc_order_departments_changed', [$this, 'handle_departments_changed'], 10, 1);
     }

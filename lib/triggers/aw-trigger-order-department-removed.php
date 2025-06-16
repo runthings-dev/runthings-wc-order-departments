@@ -82,7 +82,7 @@ class Order_Department_Removed extends Trigger
     /**
      * Register hooks for this trigger
      */
-    public function init()
+    public function register_hooks()
     {
         add_action('runthings_wc_order_department_removed', [$this, 'handle_department_removed'], 10, 2);
     }
