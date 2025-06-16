@@ -35,8 +35,8 @@ class Clear_Order_Departments extends Action
     public function run()
     {
         $order = $this->workflow->data_layer()->get_order();
-        if (!$order) {
-            return;
+        if (!$order instanceof \WC_Order) {
+            throw new \Exception('Invalid order provided.');
         }
 
         // Clear all department taxonomy terms from the order

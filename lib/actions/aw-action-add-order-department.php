@@ -62,8 +62,8 @@ class Add_Order_Department extends Action
     public function run()
     {
         $order = $this->workflow->data_layer()->get_order();
-        if (!$order) {
-            return;
+        if (!$order instanceof \WC_Order) {
+            throw new \Exception('Invalid order provided.');
         }
 
         $department_id = $this->get_option('department');
