@@ -132,7 +132,7 @@ class Taxonomy
                 }
                 ?>
             </select>
-            <p class="description"><?php esc_html_e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
+            <p class="description"><?php esc_html_e('Select product categories associated with this department. Note: Only the specifically selected categories will be matched - subcategories are not automatically included.', 'runthings-wc-order-departments'); ?></p>
         </div>
 
         <div class="form-field">
@@ -233,7 +233,7 @@ class Taxonomy
                     }
                     ?>
                 </select>
-                <p class="description"><?php esc_html_e('Select product categories associated with this department', 'runthings-wc-order-departments'); ?></p>
+                <p class="description"><?php esc_html_e('Select product categories associated with this department. Note: Only the specifically selected categories will be matched - subcategories are not automatically included.', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
         <tr class="form-field">
