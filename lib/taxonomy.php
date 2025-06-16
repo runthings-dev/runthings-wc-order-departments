@@ -29,6 +29,11 @@ class Taxonomy
         add_action('admin_print_scripts-term.php', [$this, 'enqueue_admin_scripts']);
         add_action('admin_footer-edit-tags.php', [$this, 'admin_footer_scripts']);
         add_action('admin_footer-term.php', [$this, 'admin_footer_scripts']);
+
+        // Add custom columns to screen options
+        add_filter("manage_edit-{$taxonomy}_columns", [$this, 'add_custom_columns']);
+        add_filter("manage_{$taxonomy}_custom_column", [$this, 'display_custom_column'], 10, 3);
+        add_filter('default_hidden_columns', [$this, 'set_default_hidden_columns'], 10, 2);
     }
 
     public function register_taxonomy(): void
@@ -69,6 +74,9 @@ class Taxonomy
         wp_enqueue_script('jquery');
         wp_enqueue_script('select2', WC()->plugin_url() . '/assets/js/select2/select2.full.min.js', array('jquery'), WC()->version, true);
         wp_enqueue_script('wc-enhanced-select', WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select.min.js', array('jquery', 'select2'), WC()->version, true);
+
+        // Add custom styles for our columns
+        wp_add_inline_style('woocommerce_admin_styles', $this->get_column_styles());
     }
     
     /**
@@ -326,6 +334,220 @@ class Taxonomy
                 array()
             );
         }
+    }
+
+    /**
+     * Add custom columns to the taxonomy list table
+     */
+    public function add_custom_columns($columns)
+    {
+        // Only add columns for our taxonomy
+        if (!$this->is_current_taxonomy_screen()) {
+            return $columns;
+        }
+
+        // Insert new columns before the 'posts' column
+        $new_columns = array();
+        foreach ($columns as $key => $value) {
+            if ($key === 'posts') {
+                $new_columns['department_emails'] = __('Email Addresses', 'runthings-wc-order-departments');
+                $new_columns['department_categories'] = __('Categories', 'runthings-wc-order-departments');
+                $new_columns['department_products'] = __('Products', 'runthings-wc-order-departments');
+            }
+            $new_columns[$key] = $value;
+        }
+
+        return $new_columns;
+    }
+
+    /**
+     * Display content for custom columns
+     */
+    public function display_custom_column($content, $column_name, $term_id)
+    {
+        // Only handle our taxonomy
+        if (!$this->is_current_taxonomy_screen()) {
+            return $content;
+        }
+
+        switch ($column_name) {
+            case 'department_emails':
+                return $this->display_emails_column($term_id);
+
+            case 'department_categories':
+                return $this->display_categories_column($term_id);
+
+            case 'department_products':
+                return $this->display_products_column($term_id);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Display emails column content
+     */
+    private function display_emails_column($term_id)
+    {
+        $emails = get_term_meta($term_id, $this->meta_prefix . 'department_emails', true);
+
+        if (empty($emails)) {
+            return '<span class="na">—</span>';
+        }
+
+        // Split emails and format them
+        $email_list = array_map('trim', explode(';', $emails));
+        $email_count = count($email_list);
+
+        if ($email_count === 1) {
+            return '<span title="' . esc_attr($emails) . '">' . esc_html($email_list[0]) . '</span>';
+        }
+
+        // Show first email with count if multiple
+        $first_email = $email_list[0];
+        $remaining = $email_count - 1;
+
+        return sprintf(
+            '<span title="%s">%s <span class="count">+%d more</span></span>',
+            esc_attr($emails),
+            esc_html($first_email),
+            $remaining
+        );
+    }
+
+    /**
+     * Display categories column content
+     */
+    private function display_categories_column($term_id)
+    {
+        $category_ids = get_term_meta($term_id, $this->meta_prefix . 'department_categories', true);
+
+        if (empty($category_ids) || !is_array($category_ids)) {
+            return '<span class="na">—</span>';
+        }
+
+        $category_names = array();
+        foreach ($category_ids as $cat_id) {
+            $category = get_term($cat_id, 'product_cat');
+            if ($category && !is_wp_error($category)) {
+                $category_names[] = $category->name;
+            }
+        }
+
+        if (empty($category_names)) {
+            return '<span class="na">—</span>';
+        }
+
+        $category_count = count($category_names);
+
+        if ($category_count === 1) {
+            return esc_html($category_names[0]);
+        }
+
+        // Show first category with count if multiple
+        $first_category = $category_names[0];
+        $remaining = $category_count - 1;
+        $all_categories = implode(', ', $category_names);
+
+        return sprintf(
+            '<span title="%s">%s <span class="count">+%d more</span></span>',
+            esc_attr($all_categories),
+            esc_html($first_category),
+            $remaining
+        );
+    }
+
+    /**
+     * Display products column content
+     */
+    private function display_products_column($term_id)
+    {
+        $product_ids = get_term_meta($term_id, $this->meta_prefix . 'selected_products', true);
+
+        if (empty($product_ids) || !is_array($product_ids)) {
+            return '<span class="na">—</span>';
+        }
+
+        $product_count = count($product_ids);
+
+        if ($product_count === 0) {
+            return '<span class="na">—</span>';
+        }
+
+        // Get first product name for display
+        $first_product = get_post($product_ids[0]);
+        $first_product_name = $first_product ? $first_product->post_title : __('Unknown Product', 'runthings-wc-order-departments');
+
+        if ($product_count === 1) {
+            return esc_html($first_product_name);
+        }
+
+        // Show count with tooltip showing first product
+        return sprintf(
+            '<span title="%s">%s</span>',
+            esc_attr(sprintf(__('First product: %s', 'runthings-wc-order-departments'), $first_product_name)),
+            sprintf(_n('%d product', '%d products', $product_count, 'runthings-wc-order-departments'), $product_count)
+        );
+    }
+
+    /**
+     * Set default hidden columns for our taxonomy
+     */
+    public function set_default_hidden_columns($hidden, $screen)
+    {
+        // Only apply to our taxonomy screen
+        if ($screen && $screen->taxonomy === $this->taxonomy) {
+            // Hide categories and products columns by default, show only emails
+            $hidden = array_merge($hidden, array(
+                'department_categories',
+                'department_products'
+            ));
+        }
+
+        return $hidden;
+    }
+
+    /**
+     * Get custom CSS styles for our columns
+     */
+    private function get_column_styles()
+    {
+        return '
+            .wp-list-table .column-department_emails,
+            .wp-list-table .column-department_categories,
+            .wp-list-table .column-department_products {
+                width: 15%;
+            }
+
+            .wp-list-table .column-department_emails .count,
+            .wp-list-table .column-department_categories .count,
+            .wp-list-table .column-department_products .count {
+                color: #666;
+                font-size: 0.9em;
+            }
+
+            .wp-list-table .column-department_emails .na,
+            .wp-list-table .column-department_categories .na,
+            .wp-list-table .column-department_products .na {
+                color: #999;
+            }
+
+            /* Screen options styling */
+            .metabox-prefs label {
+                display: inline-block;
+                margin-right: 15px;
+                margin-bottom: 5px;
+            }
+        ';
+    }
+
+    /**
+     * Check if we're on the current taxonomy screen
+     */
+    private function is_current_taxonomy_screen()
+    {
+        $screen = get_current_screen();
+        return $screen && $screen->taxonomy === $this->taxonomy;
     }
 }
 
