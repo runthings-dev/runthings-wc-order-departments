@@ -160,7 +160,7 @@ class Taxonomy
                 }
                 ?>
             </select>
-            <p class="description"><?php esc_html_e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+            <p class="description"><?php esc_html_e('Select specific products associated with this department. Use this for products not covered by the selected categories above.', 'runthings-wc-order-departments'); ?></p>
         </div>
 
         <script type="text/javascript">
@@ -265,7 +265,7 @@ class Taxonomy
                     }
                     ?>
                 </select>
-                <p class="description"><?php esc_html_e('Select specific products associated with this department', 'runthings-wc-order-departments'); ?></p>
+                <p class="description"><?php esc_html_e('Select specific products associated with this department. Use this for products not covered by the selected categories above.', 'runthings-wc-order-departments'); ?></p>
             </td>
         </tr>
         <?php
