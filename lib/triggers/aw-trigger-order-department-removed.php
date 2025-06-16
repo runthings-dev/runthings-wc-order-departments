@@ -64,16 +64,19 @@ class Order_Department_Removed extends Trigger
     public function validate_workflow($workflow)
     {
         $order = $workflow->data_layer()->get_order();
-        $department = $workflow->data_layer()->get_department();
 
-        if (!$order || !$department) {
+        if (!$order) {
             return false;
         }
 
         // Check if specific department is required
-        $required_department = $this->get_option('department');
-        if ($required_department && $department->term_id != $required_department) {
-            return false;
+        $required_department = $workflow->get_trigger_option('department');
+        if ($required_department) {
+            // Get the department from the data layer
+            $department_data = $workflow->data_layer()->get_item('department');
+            if (!$department_data || $department_data->term_id != $required_department) {
+                return false;
+            }
         }
 
         return true;
