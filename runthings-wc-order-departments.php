@@ -3,11 +3,18 @@
 /*
  * Plugin Name: Order Departments for WooCommerce
  * Plugin URI: https://runthings.dev
- * Description: Split WooCommerce Orders by Departments, with AutomateWoo support
+ * Description: Split WooCommerce orders by departments, with AutomateWoo support
  * Version: 0.3.1
  * Author: runthingsdev
  * Author URI: https://runthings.dev/
+ * Requires at least: 6.3
+ * Tested up to: 6.8
+ * Requires PHP: 7.4
  * Requires Plugins: woocommerce
+ * WC requires at least: 8.2
+ * WC tested up to: 9.9
+ * Text Domain: runthings-wc-order-departments
+ * Domain Path: /languages
  * License: GPLv3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
