@@ -1,10 +1,10 @@
-# WooCommerce Order Departments
+# Order Departments for WooCommerce
 
 Automatically assign orders to departments based on products and categories, with email routing and AutomateWoo integration.
 
 ## Description
 
-WooCommerce Order Departments enables large organizations to automatically route orders to the appropriate departments based on the products or the categories of the products in each order.
+Order Departments for WooCommerce enables large organizations to automatically route orders to the appropriate departments based on the products or the categories of the products in each order.
 
 For each department, a quick access menu is created below the WooCommerce.
 
