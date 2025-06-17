@@ -6,10 +6,11 @@ class AutomateWooIntegration
 {
     public function __construct()
     {
-        // Register custom actions, triggers, and rules only if AutomateWoo is active
+        // Register custom actions, triggers, rules, and variables only if AutomateWoo is active
         add_action('automatewoo/actions', [$this, 'register_department_actions']);
         add_action('automatewoo/triggers', [$this, 'register_department_triggers']);
         add_action('automatewoo/rules', [$this, 'register_department_rules']);
+        add_filter('automatewoo/variables', [$this, 'register_department_variables']);
     }
 
     /**
@@ -72,5 +73,30 @@ class AutomateWooIntegration
         $rules['runthings_order_department_is'] = 'RunthingsWCOrderDepartments\Rules\Order_Department_Is';
 
         return $rules;
+    }
+
+    /**
+     * Register custom variables for AutomateWoo
+     */
+    public function register_department_variables($variables)
+    {
+        if (!class_exists('AutomateWoo\Variable')) {
+            return $variables;
+        }
+
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-departments-names.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-departments-emails.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-names.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-emails.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-count.php';
+
+        // Add department variables to the order group
+        $variables['order']['departments_names'] = 'RunthingsWCOrderDepartments\Variables\Order_Departments_Names';
+        $variables['order']['departments_emails'] = 'RunthingsWCOrderDepartments\Variables\Order_Departments_Emails';
+        $variables['order']['department_names'] = 'RunthingsWCOrderDepartments\Variables\Order_Department_Names';
+        $variables['order']['department_emails'] = 'RunthingsWCOrderDepartments\Variables\Order_Department_Emails';
+        $variables['order']['department_count'] = 'RunthingsWCOrderDepartments\Variables\Order_Department_Count';
+
+        return $variables;
     }
 }
