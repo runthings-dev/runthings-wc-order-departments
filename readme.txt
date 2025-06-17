@@ -1,12 +1,12 @@
 === Order Departments for WooCommerce ===
 Contributors: runthings
 Tags: woocommerce, orders, departments, automation, email-routing
-Requires at least: 5.0
-Tested up to: 6.4
+Requires at least: 6.3
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
-License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Stable tag: 0.3.1
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Automatically assign WooCommerce orders to departments based on products/categories with email routing and AutomateWoo integration.
 
@@ -201,7 +201,7 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 == Changelog ==
 
-= 1.0.0 - 17th June 2025 =
+= 0.3.1 - 17th June 2025 =
 * Initial release
 * Automatic department assignment
 * Email routing
@@ -230,5 +230,5 @@ Icon - SEO by pictohaven from [https://thenounproject.com/browse/icons/term/seo/
 
 == Upgrade Notice ==
 
-= 1.0.0 =
+= 0.3.1 =
 Initial release of Order Departments for WooCommerce plugin.
