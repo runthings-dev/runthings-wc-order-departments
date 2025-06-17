@@ -18,7 +18,8 @@ The AutomateWoo integration then allows for further workflow automation based on
 - **Email Routing**: Route order emails to department-specific email addresses
 - **Admin Filtering**: Filter orders by department in WooCommerce admin
 - **Quick Access Menus**: Direct links to orders for each department
-- **AutomateWoo Integration**: Complete set of actions, triggers, and rules for workflow automation
+- **AutomateWoo Integration**: Complete set of actions, triggers, rules, and variables for workflow automation
+- **Department Variables**: Access department data in AutomateWoo workflows (names, emails, counts)
 - **HPOS Compatible**: Full support for WooCommerce High-Performance Order Storage
 
 ## Screenshots
@@ -37,15 +38,14 @@ The AutomateWoo integration then allows for further workflow automation based on
 
 ## AutomateWoo Integration
 
-This plugin provides complete AutomateWoo integration, allowing you to create sophisticated workflows based on department assignments. The integration includes custom actions, triggers, and rules specifically designed for department-based automation.
+This plugin provides complete AutomateWoo integration, allowing you to create sophisticated workflows based on department assignments. The integration includes custom actions, triggers, rules, and variables specifically designed for department-based automation.
 
-**Department Assignment Timing**: This plugin assigns departments immediately during order processing using the product/category rules you configure in the taxonomy screens. This happens early enough to affect WooCommerce's core systems like email sending. AutomateWoo workflows run later in the process, so relying solely on AutomateWoo actions for department assignment would be too late to override WooCommerce's built-in emails and other core functionality.
+**Department Assignment Timing Tip**: This plugin assigns departments immediately during order processing using the product/category rules you configure in the taxonomy screens. This happens early enough to affect WooCommerce's core systems like email sending. AutomateWoo workflows run later in the process, so relying solely on AutomateWoo actions for department assignment would be too late to override WooCommerce's built-in emails and other core functionality.
 
 **Using AutomateWoo for Email Handling**: If you prefer to handle all emails through AutomateWoo workflows instead of the built-in email routing:
 
-1. Leave department email addresses blank for each department
-2. Disable WooCommerce's default admin emails
-3. Use AutomateWoo's email actions with department triggers for full control
+1. Disable WooCommerce's default admin emails
+2. Use AutomateWoo's email actions with department triggers for full control
 
 This approach gives you the flexibility to use AutomateWoo's advanced email features (templates, conditions, delays, etc.) while still benefiting from automatic department assignment.
 
@@ -68,12 +68,66 @@ This approach gives you the flexibility to use AutomateWoo's advanced email feat
 - **Order Department Count**: Check the number of departments assigned
 - **Order Department Is**: Check if order's departments exactly match a set
 
+### Variables
+
+**Collection Variables** (all departments):
+
+- **`{{ order.departments_names }}`**: List of all department names assigned to the order
+- **`{{ order.departments_emails }}`**: List of all department email addresses (automatically deduplicated)
+
+**Per-Department Variables** (flexible access):
+
+- **`{{ order.department_names }}`**: Department names with index/all/count options
+- **`{{ order.department_emails }}`**: Department emails with index/all/count options
+- **`{{ order.department_count }}`**: Number of departments assigned to the order
+
+#### Variable Parameters
+
+**Collection Variables** support `separator`, `prefix`, and `suffix` parameters:
+
+- **`{{ order.departments_names | separator: ';' }}`** → "Sales;Technical;Support"
+- **`{{ order.departments_names | prefix: 'Dept: ', suffix: ' Team' }}`** → "Dept: Sales Team, Dept: Technical Team"
+- **`{{ order.departments_emails | separator: '; ' }}`** → "sales@example.com; tech@example.com"
+
+**Per-Department Variables** support `mode`, `index`, `separator`, `prefix`, and `suffix` parameters:
+
+**Mode Options:**
+
+- **`{{ order.department_names }}`** → First department name (default mode: index)
+- **`{{ order.department_names | mode: 'all' }}`** → All department names
+- **`{{ order.department_names | mode: 'count' }}`** → Number of departments
+
+**Index Access:**
+
+- **`{{ order.department_names | index: '1' }}`** → First department name
+- **`{{ order.department_names | index: '2' }}`** → Second department name
+- **`{{ order.department_emails | index: '1' }}`** → All emails from first department
+
+**Formatting:**
+
+- **`{{ order.department_names | prefix: 'Team: ', suffix: ' Dept' }}`** → "Team: Sales Dept"
+- **`{{ order.department_emails | separator: '; ' }}`** → Multiple emails separated by semicolon
+
 ## Use Cases
 
 - **Sales & Technical Support**: Route orders containing software to Technical, hardware to Sales
+
+  - Use `{{ order.departments_emails }}` to automatically send order notifications to the right team
+  - Create conditional workflows based on `{{ order.department_count }}` for mixed orders
+
 - **Multi-location Fulfillment**: Route orders to appropriate warehouses/locations
+
+  - Include `{{ order.departments_names }}` in fulfillment emails to specify handling location
+  - Use department variables in webhook payloads to external fulfillment systems
+
 - **Specialized Teams**: Route complex products to specialist departments
+
+  - Send detailed instructions using `{{ order.department_names }}` for single-department orders
+  - Create escalation workflows when `{{ order.department_names | mode: 'count' }}` exceeds normal thresholds
+
 - **CRM Integration**: Trigger department-specific workflows in external systems
+  - Pass `{{ order.departments_names }}` to CRM systems for proper lead assignment
+  - Use `{{ order.departments_emails }}` for automated follow-up sequences
 
 ## Installation
 
@@ -111,12 +165,14 @@ This approach gives you the flexibility to use AutomateWoo's advanced email feat
 
 ### AutomateWoo Workflows
 
-Create workflows using the department triggers and rules to:
+Create workflows using the department triggers, rules, and variables to:
 
-- Send notifications to external systems
-- Create tickets in support systems
-- Update CRM records
-- Trigger fulfillment processes
+- Send notifications to external systems using department email variables
+- Create tickets in support systems with department information
+- Update CRM records with department assignments
+- Trigger fulfillment processes based on department rules
+- Route emails to department-specific addresses using `{{ order.departments_emails }}`
+- Include department context in communications using `{{ order.departments_names }}`
 
 ## Requirements
 
@@ -159,7 +215,7 @@ Existing orders will not be automatically assigned to departments. Only new orde
 - Automatic department assignment
 - Email routing
 - Admin filtering and quick access
-- Complete AutomateWoo integration
+- Complete AutomateWoo integration with actions, triggers, rules, and variables
 - HPOS compatibility
 
 ## Additional Notes
