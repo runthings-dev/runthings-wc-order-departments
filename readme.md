@@ -209,7 +209,7 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 ## Changelog
 
-### 1.0.0
+### 1.0.0 - 17th June 2025
 
 - Initial release
 - Automatic department assignment
