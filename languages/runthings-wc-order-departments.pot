@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Order Departments for WooCommerce 0.3.1\n"
+"Project-Id-Version: Order Departments for WooCommerce 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-16T11:01:08+00:00\n"
+"POT-Creation-Date: 2025-06-17T10:47:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: runthings-wc-order-departments\n"
@@ -21,12 +21,12 @@ msgstr ""
 
 #. Plugin URI of the plugin
 #: runthings-wc-order-departments.php
-msgid "https://runthings.dev"
+msgid "https://runthings.dev/wordpress-plugins/runthings-wc-order-departments/"
 msgstr ""
 
 #. Description of the plugin
 #: runthings-wc-order-departments.php
-msgid "Split WooCommerce Orders by Departments, with AutomateWoo support"
+msgid "Split WooCommerce orders by departments, with AutomateWoo support"
 msgstr ""
 
 #. Author of the plugin
@@ -65,8 +65,9 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
-#: lib/actions/aw-action-add-order-department.php:88
-msgid "[AutomateWoo] Workflow #%s added department: %s"
+#. translators: %1$s: Workflow ID, %2$s: Department name
+#: lib/actions/aw-action-add-order-department.php:89
+msgid "[AutomateWoo] Workflow #%1$s added department: %2$s"
 msgstr ""
 
 #: lib/actions/aw-action-clear-order-departments.php:19
@@ -77,7 +78,8 @@ msgstr ""
 msgid "Remove all departments from the order."
 msgstr ""
 
-#: lib/actions/aw-action-clear-order-departments.php:49
+#. translators: %s: Workflow ID
+#: lib/actions/aw-action-clear-order-departments.php:50
 msgid "[AutomateWoo] Workflow #%s cleared all departments"
 msgstr ""
 
@@ -89,8 +91,9 @@ msgstr ""
 msgid "Remove a department from the order."
 msgstr ""
 
-#: lib/actions/aw-action-remove-order-department.php:88
-msgid "[AutomateWoo] Workflow #%s removed department: %s"
+#. translators: %1$s: Workflow ID, %2$s: Department name
+#: lib/actions/aw-action-remove-order-department.php:89
+msgid "[AutomateWoo] Workflow #%1$s removed department: %2$s"
 msgstr ""
 
 #: lib/actions/aw-action-set-order-department.php:20
@@ -101,8 +104,9 @@ msgstr ""
 msgid "Set a department for the order (replaces all existing departments)."
 msgstr ""
 
-#: lib/actions/aw-action-set-order-department.php:88
-msgid "[AutomateWoo] Workflow #%s set department to: %s"
+#. translators: %1$s: Workflow ID, %2$s: Department name
+#: lib/actions/aw-action-set-order-department.php:89
+msgid "[AutomateWoo] Workflow #%1$s set department to: %2$s"
 msgstr ""
 
 #: lib/rules/aw-rule-order-department-count.php:22
@@ -164,11 +168,13 @@ msgstr ""
 msgid "Unknown Product"
 msgstr ""
 
-#: lib/taxonomy.php:455
+#. translators: %s: Product name
+#: lib/taxonomy.php:456
 msgid "First product: %s"
 msgstr ""
 
-#: lib/taxonomy.php:456
+#. translators: %d: Number of products
+#: lib/taxonomy.php:458
 msgid "%d product"
 msgid_plural "%d products"
 msgstr[0] ""
@@ -206,4 +212,85 @@ msgstr ""
 
 #: lib/triggers/aw-trigger-order-department-removed.php:21
 msgid "Triggers when a department is removed from an order."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-count.php:23
+msgid "Displays the number of departments assigned to the order. Useful for conditional logic."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:26
+msgid "Displays department email addresses with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:30
+msgid "How to access the department emails."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:32
+#: lib/variables/aw-variable-order-department-names.php:32
+msgid "By Index (default)"
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:33
+#: lib/variables/aw-variable-order-department-names.php:33
+msgid "All Departments"
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:34
+#: lib/variables/aw-variable-order-department-names.php:34
+msgid "Count of Departments"
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:41
+#: lib/variables/aw-variable-order-department-names.php:41
+msgid "The index of the department to retrieve (1-based). Default is 1 (first department). Only used when mode is \"index\"."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:48
+#: lib/variables/aw-variable-order-departments-emails.php:28
+msgid "The separator to use between email addresses. Default is \", \" (comma space). Use \";\" for semicolon separation."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:55
+#: lib/variables/aw-variable-order-departments-emails.php:35
+msgid "Text to add before each email address."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-emails.php:62
+#: lib/variables/aw-variable-order-departments-emails.php:42
+msgid "Text to add after each email address."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-names.php:26
+msgid "Displays department names with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-names.php:30
+msgid "How to access the department names."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-names.php:48
+msgid "The separator to use between department names when mode is \"all\". Default is \", \" (comma space)."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-names.php:55
+#: lib/variables/aw-variable-order-departments-names.php:34
+msgid "Text to add before each department name. Example: \"Dept: \" would turn \"Sales\" into \"Dept: Sales\"."
+msgstr ""
+
+#: lib/variables/aw-variable-order-department-names.php:62
+#: lib/variables/aw-variable-order-departments-names.php:41
+msgid "Text to add after each department name. Example: \" Dept\" would turn \"Sales\" into \"Sales Dept\"."
+msgstr ""
+
+#: lib/variables/aw-variable-order-departments-emails.php:24
+msgid "Displays a list of all department email addresses assigned to the order. Useful for the \"To\" field in email actions."
+msgstr ""
+
+#: lib/variables/aw-variable-order-departments-names.php:23
+msgid "Displays a list of all department names assigned to the order."
+msgstr ""
+
+#: lib/variables/aw-variable-order-departments-names.php:27
+msgid "The separator to use between department names. Default is \", \" (comma space)."
 msgstr ""
