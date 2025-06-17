@@ -21,6 +21,20 @@ The AutomateWoo integration then allows for further workflow automation based on
 - **AutomateWoo Integration**: Complete set of actions, triggers, and rules for workflow automation
 - **HPOS Compatible**: Full support for WooCommerce High-Performance Order Storage
 
+## Screenshots
+
+1. **Department Taxonomy Management Screen** - Main interface for managing departments, viewing assigned orders, and configuring department settings.
+   ![Department Management](screenshot-1.png)
+
+2. **Custom Department Menus** - Quick access menus in WooCommerce admin for filtering orders by department.
+   ![Department Menus](screenshot-2.png)
+
+3. **Department Meta Box on Order Screen** - View and manage department assignments directly from individual order pages.
+   ![Order Department Meta Box](screenshot-3.png)
+
+4. **Edit Department Screen** - Configure department email addresses, product categories, and specific product assignments.
+   ![Edit Department](screenshot-4.png)
+
 ## AutomateWoo Integration
 
 This plugin provides complete AutomateWoo integration, allowing you to create sophisticated workflows based on department assignments. The integration includes custom actions, triggers, and rules specifically designed for department-based automation.
