@@ -85,7 +85,8 @@ class Set_Order_Department extends Action
         $department_name = $department_term && !is_wp_error($department_term) ? $department_term->name : "ID: $term_id";
 
         // Add order note (private note to avoid triggering other AutomateWoo workflows)
-        $note = sprintf(__('[AutomateWoo] Workflow #%s set department to: %s', 'runthings-wc-order-departments'), $this->workflow->get_id(), $department_name);
+        /* translators: %1$s: Workflow ID, %2$s: Department name */
+        $note = sprintf(__('[AutomateWoo] Workflow #%1$s set department to: %2$s', 'runthings-wc-order-departments'), $this->workflow->get_id(), $department_name);
         $order->add_order_note($note, 0, false);
 
         // Fire trigger for department added (since we're setting one)

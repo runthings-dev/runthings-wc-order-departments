@@ -452,7 +452,9 @@ class Taxonomy
         // Show count with tooltip showing first product
         return sprintf(
             '<span title="%s">%s</span>',
+            /* translators: %s: Product name */
             esc_attr(sprintf(__('First product: %s', 'runthings-wc-order-departments'), $first_product_name)),
+            /* translators: %d: Number of products */
             sprintf(_n('%d product', '%d products', $product_count, 'runthings-wc-order-departments'), $product_count)
         );
     }
@@ -479,9 +481,14 @@ class Taxonomy
      */
     private function is_ajax_for_our_taxonomy()
     {
-        return wp_doing_ajax() &&
-               isset($_POST['taxonomy']) &&
-               $_POST['taxonomy'] === $this->taxonomy;
+        // Only check during AJAX requests
+        if (!wp_doing_ajax()) {
+            return false;
+        }
+
+        // Safely check if this is for our taxonomy
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Only checking taxonomy context, not processing data
+        return isset($_POST['taxonomy']) && $_POST['taxonomy'] === $this->taxonomy;
     }
 
     /**
