@@ -1,5 +1,5 @@
 === Order Departments for WooCommerce ===
-Contributors: runthings
+Contributors: runthingsdev
 Tags: woocommerce, orders, departments, automation, email-routing
 Requires at least: 6.3
 Tested up to: 6.8
