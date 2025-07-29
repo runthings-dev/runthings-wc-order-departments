@@ -22,10 +22,10 @@ class AutomateWooIntegration
             return $actions;
         }
 
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/actions/aw-action-set-order-department.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/actions/aw-action-add-order-department.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/actions/aw-action-remove-order-department.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/actions/aw-action-clear-order-departments.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/actions/aw-action-set-order-department.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/actions/aw-action-add-order-department.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/actions/aw-action-remove-order-department.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/actions/aw-action-clear-order-departments.php';
 
         $actions['runthings_set_order_department'] = 'RunthingsWCOrderDepartments\Actions\Set_Order_Department';
         $actions['runthings_add_order_department'] = 'RunthingsWCOrderDepartments\Actions\Add_Order_Department';
@@ -44,9 +44,9 @@ class AutomateWooIntegration
             return $triggers;
         }
 
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-added.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-removed.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/triggers/aw-trigger-order-department-changed.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/triggers/aw-trigger-order-department-added.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/triggers/aw-trigger-order-department-removed.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/triggers/aw-trigger-order-department-changed.php';
 
         $triggers['runthings_order_department_added'] = 'RunthingsWCOrderDepartments\Triggers\Order_Department_Added';
         $triggers['runthings_order_department_removed'] = 'RunthingsWCOrderDepartments\Triggers\Order_Department_Removed';
@@ -64,9 +64,9 @@ class AutomateWooIntegration
             return $rules;
         }
 
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/rules/aw-rule-order-has-department.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/rules/aw-rule-order-department-count.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/rules/aw-rule-order-department-is.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/rules/aw-rule-order-has-department.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/rules/aw-rule-order-department-count.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/rules/aw-rule-order-department-is.php';
 
         $rules['runthings_order_has_department'] = 'RunthingsWCOrderDepartments\Rules\Order_Has_Department';
         $rules['runthings_order_department_count'] = 'RunthingsWCOrderDepartments\Rules\Order_Department_Count';
@@ -84,11 +84,11 @@ class AutomateWooIntegration
             return $variables;
         }
 
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-departments-names.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-departments-emails.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-names.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-emails.php';
-        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/variables/aw-variable-order-department-count.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/variables/aw-variable-order-departments-names.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/variables/aw-variable-order-departments-emails.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/variables/aw-variable-order-department-names.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/variables/aw-variable-order-department-emails.php';
+        require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo/variables/aw-variable-order-department-count.php';
 
         // Add department variables to the order group
         $variables['order']['departments_names'] = 'RunthingsWCOrderDepartments\Variables\Order_Departments_Names';
