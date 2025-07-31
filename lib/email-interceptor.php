@@ -127,7 +127,7 @@ class EmailInterceptor
         if (!empty($reply_to_emails)) {
             // Normalize headers into array and remove any existing Reply-To headers
             $lines = preg_split('/\r\n|\n|\r/', $headers);
-            $lines = array_filter($lines, fn($line) => stripos($line, 'Reply-To:') !== 0);
+            $lines = array_filter($lines, fn($line) => trim($line) !== '' && stripos($line, 'Reply-To:') !== 0);
 
             // Add new Reply-To header
             $lines[] = 'Reply-To: ' . $reply_to_emails;
