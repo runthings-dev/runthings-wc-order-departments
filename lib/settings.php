@@ -146,6 +146,7 @@ class Settings
     {
         $wc_settings_url = admin_url('admin.php?page=wc-settings&tab=email');
         echo '<p>' . sprintf(
+            /* translators: %s: Link to WooCommerce email settings */
             esc_html__('Configure how customer email replies are routed based on order departments. When disabled, emails use the %s.', 'runthings-wc-order-departments'),
             '<a href="' . esc_url($wc_settings_url) . '">' . esc_html__('WooCommerce email settings', 'runthings-wc-order-departments') . '</a>'
         ) . '</p>';
@@ -206,6 +207,7 @@ class Settings
             <p class="description">
                 <?php
                 printf(
+                    /* translators: %s: Link to WooCommerce email settings */
                     esc_html__('Use the default reply-to address from %s instead of department emails when multiple unique email addresses are involved.', 'runthings-wc-order-departments'),
                     '<a href="' . esc_url($wc_settings_url) . '">' . esc_html__('WooCommerce email settings', 'runthings-wc-order-departments') . '</a>'
                 );
