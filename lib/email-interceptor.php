@@ -12,6 +12,8 @@ class EmailInterceptor
 {
     private $department_matcher;
 
+    private $settings;
+
     /**
      * List of customer-facing email IDs that should have reply-to modified
      */
@@ -38,9 +40,10 @@ class EmailInterceptor
         'backorder'
     ];
 
-    public function __construct($taxonomy = 'order_department')
+    public function __construct($taxonomy = 'order_department', $settings = null)
     {
         $this->department_matcher = new DepartmentMatcher($taxonomy);
+        $this->settings = $settings;
 
         // Apply filters to allow customization of email ID arrays
         $this->customer_email_ids = apply_filters('runthings_wc_order_departments_customer_email_ids', $this->customer_email_ids);
@@ -69,12 +72,12 @@ class EmailInterceptor
             return $recipient;
         }
 
-        // Get department recipients using the utility class
-        $department_emails = $this->department_matcher->get_department_emails($order);
+        // Get unique department email addresses
+        $unique_emails = $this->department_matcher->get_unique_department_emails($order);
 
-        // If department emails were found, use them instead
-        if (!empty($department_emails)) {
-            return $department_emails;
+        // If department emails were found, use them instead (format as CSV for admin emails)
+        if (!empty($unique_emails)) {
+            return implode(', ', $unique_emails);
         }
 
         // Otherwise return the original recipient
@@ -92,6 +95,8 @@ class EmailInterceptor
      */
     public function modify_customer_email_headers($headers, $email_id, $object, $email = null)
     {
+        // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Required by WordPress filter signature
+
         // Only process customer-facing emails
         if (!in_array($email_id, $this->customer_email_ids)) {
             return $headers;
@@ -102,18 +107,78 @@ class EmailInterceptor
             return $headers;
         }
 
-        // Get department emails using the utility class
-        $department_emails = $this->department_matcher->get_department_emails($object);
+        // Check if reply-to override is enabled
+        if (!$this->is_reply_to_override_enabled()) {
+            return $headers;
+        }
 
-        // If department emails were found, set them as reply-to
-        if (!empty($department_emails)) {
+        // Get unique department email addresses for this order
+        $unique_emails = $this->department_matcher->get_unique_department_emails($object);
+
+        // If no department emails found, return original headers
+        if (empty($unique_emails)) {
+            return $headers;
+        }
+
+        // Determine reply-to behavior based on number of unique emails and settings
+        $reply_to_emails = $this->determine_reply_to_emails($unique_emails);
+
+        // If we have reply-to emails to set, modify the headers
+        if (!empty($reply_to_emails)) {
             // Remove any existing Reply-to header
             $headers = preg_replace('/Reply-to:.*?\r\n/i', '', $headers);
 
-            // Add new Reply-to header with department emails
-            $headers .= 'Reply-to: ' . $department_emails . "\r\n";
+            // Add new Reply-to header
+            $headers .= 'Reply-to: ' . $reply_to_emails . "\r\n";
         }
 
         return $headers;
+    }
+
+    /**
+     * Check if reply-to override is enabled in settings
+     *
+     * @return bool
+     */
+    private function is_reply_to_override_enabled()
+    {
+        // If no settings instance, assume enabled for backward compatibility
+        if (!$this->settings) {
+            return true;
+        }
+
+        $settings = $this->settings->get_settings();
+        return !empty($settings['enable_reply_to_override']);
+    }
+
+    /**
+     * Determine which reply-to emails to use based on settings and email count
+     *
+     * @param array $unique_emails Array of unique email addresses
+     * @return string Email addresses for reply-to header (comma-separated) or empty string
+     */
+    private function determine_reply_to_emails($unique_emails)
+    {
+        // If only one unique email, always use it
+        if (count($unique_emails) === 1) {
+            return $unique_emails[0];
+        }
+
+        // Multiple unique emails - check settings for behavior
+        if (!$this->settings) {
+            // No settings instance - use all emails for backward compatibility
+            return implode(', ', $unique_emails);
+        }
+
+        $settings = $this->settings->get_settings();
+        $multi_dept_mode = $settings['multi_dept_mode'];
+
+        if ($multi_dept_mode === 'use_all_emails') {
+            // Use all unique department emails
+            return implode(', ', $unique_emails);
+        } else {
+            // Fall back to WooCommerce default (return empty to let WC handle it)
+            return '';
+        }
     }
 }

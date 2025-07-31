@@ -13,6 +13,7 @@ if (!defined('WPINC')) {
 class DepartmentMatcher
 {
     private $taxonomy;
+
     private $meta_prefix = 'runthings_wc_od_';
 
     public function __construct($taxonomy = 'order_department')
@@ -179,29 +180,26 @@ class DepartmentMatcher
     }
 
     /**
-     * Get department email addresses for an order
+     * Get unique department email addresses for an order
      *
      * @param \WC_Order $order Order object
-     * @return string Email addresses separated by commas
+     * @return array Array of unique email addresses
      */
-    public function get_department_emails($order)
+    public function get_unique_department_emails($order)
     {
         $matching_departments = $this->get_matching_departments($order);
-        
+
         // Collect emails from all matching departments
         $destination_emails = [];
-        
+
         foreach ($matching_departments as $department) {
             if (!empty($department['emails'])) {
                 $destination_emails = array_merge($destination_emails, $department['emails']);
             }
         }
-        
+
         // Remove duplicates and filter out empty values
-        $destination_emails = array_unique(array_filter($destination_emails));
-        
-        // Return comma-separated list of emails (WordPress email format)
-        return implode(', ', $destination_emails);
+        return array_unique(array_filter($destination_emails));
     }
 
     /**

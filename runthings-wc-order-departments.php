@@ -56,6 +56,8 @@ class RunthingsWCOrderDepartments
 {
     public $taxonomy = 'order_department';
 
+    private $settings;
+
     public function __construct()
     {
         // Declare HPOS compatibility
@@ -65,11 +67,14 @@ class RunthingsWCOrderDepartments
         add_action('admin_menu', [$this, 'add_department_quick_access_menus']);
         add_action('admin_menu', [$this, 'add_departments_management_menu'], 99);
 
+        // Initialize settings first
+        $this->settings = new Settings();
+
+        // Initialize other components, passing settings where needed
         new Taxonomy($this->taxonomy);
-        new EmailInterceptor($this->taxonomy);
+        new EmailInterceptor($this->taxonomy, $this->settings);
         new OrderDepartmentAssigner($this->taxonomy);
         new AutomateWooIntegration();
-        new Settings();
     }
 
     public function declare_hpos_compatibility(): void
