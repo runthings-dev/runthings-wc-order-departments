@@ -183,7 +183,7 @@ class DepartmentMatcher
      * Get unique department email addresses for an order
      *
      * @param \WC_Order $order Order object
-     * @return array Array of unique email addresses
+     * @return array Array of clean, unique email addresses
      */
     public function get_unique_department_emails($order)
     {
@@ -198,8 +198,17 @@ class DepartmentMatcher
             }
         }
 
-        // Remove duplicates and filter out empty values
-        return array_unique(array_filter($destination_emails));
+        // Clean emails: trim whitespace, remove newlines, validate and filter
+        $clean_emails = [];
+        foreach ($destination_emails as $email) {
+            $clean_email = trim(str_replace(["\r", "\n", "\t"], '', $email));
+            if (!empty($clean_email) && filter_var($clean_email, FILTER_VALIDATE_EMAIL)) {
+                $clean_emails[] = $clean_email;
+            }
+        }
+
+        // Remove duplicates and return
+        return array_unique($clean_emails);
     }
 
     /**
