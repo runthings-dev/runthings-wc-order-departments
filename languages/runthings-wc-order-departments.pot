@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Order Departments for WooCommerce 1.0.1\n"
+"Project-Id-Version: Order Departments for WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-27T20:52:32+00:00\n"
+"POT-Creation-Date: 2025-07-31T15:39:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: runthings-wc-order-departments\n"
@@ -39,86 +39,268 @@ msgstr ""
 msgid "https://runthings.dev/"
 msgstr ""
 
-#: lib/actions/aw-action-add-order-department.php:20
+#: lib/automatewoo/actions/aw-action-add-order-department.php:20
 msgid "Add Order Department"
 msgstr ""
 
-#: lib/actions/aw-action-add-order-department.php:21
+#: lib/automatewoo/actions/aw-action-add-order-department.php:21
 msgid "Add a department to the order (keeps existing departments)."
 msgstr ""
 
-#: lib/actions/aw-action-add-order-department.php:22
-#: lib/actions/aw-action-clear-order-departments.php:21
-#: lib/actions/aw-action-remove-order-department.php:22
-#: lib/actions/aw-action-set-order-department.php:22
-#: lib/triggers/aw-trigger-order-department-added.php:22
-#: lib/triggers/aw-trigger-order-department-changed.php:21
-#: lib/triggers/aw-trigger-order-department-removed.php:22
+#: lib/automatewoo/actions/aw-action-add-order-department.php:22
+#: lib/automatewoo/actions/aw-action-clear-order-departments.php:21
+#: lib/automatewoo/actions/aw-action-remove-order-department.php:22
+#: lib/automatewoo/actions/aw-action-set-order-department.php:22
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:22
+#: lib/automatewoo/triggers/aw-trigger-order-department-changed.php:21
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:22
 msgid "Order"
 msgstr ""
 
-#: lib/actions/aw-action-add-order-department.php:32
-#: lib/actions/aw-action-remove-order-department.php:32
-#: lib/actions/aw-action-set-order-department.php:32
-#: lib/triggers/aw-trigger-order-department-added.php:32
-#: lib/triggers/aw-trigger-order-department-removed.php:32
+#: lib/automatewoo/actions/aw-action-add-order-department.php:32
+#: lib/automatewoo/actions/aw-action-remove-order-department.php:32
+#: lib/automatewoo/actions/aw-action-set-order-department.php:32
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:32
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:32
 msgid "Department"
 msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
-#: lib/actions/aw-action-add-order-department.php:89
+#: lib/automatewoo/actions/aw-action-add-order-department.php:89
 msgid "[AutomateWoo] Workflow #%1$s added department: %2$s"
 msgstr ""
 
-#: lib/actions/aw-action-clear-order-departments.php:19
+#: lib/automatewoo/actions/aw-action-clear-order-departments.php:19
 msgid "Clear Order Departments"
 msgstr ""
 
-#: lib/actions/aw-action-clear-order-departments.php:20
+#: lib/automatewoo/actions/aw-action-clear-order-departments.php:20
 msgid "Remove all departments from the order."
 msgstr ""
 
 #. translators: %s: Workflow ID
-#: lib/actions/aw-action-clear-order-departments.php:50
+#: lib/automatewoo/actions/aw-action-clear-order-departments.php:50
 msgid "[AutomateWoo] Workflow #%s cleared all departments"
 msgstr ""
 
-#: lib/actions/aw-action-remove-order-department.php:20
+#: lib/automatewoo/actions/aw-action-remove-order-department.php:20
 msgid "Remove Order Department"
 msgstr ""
 
-#: lib/actions/aw-action-remove-order-department.php:21
+#: lib/automatewoo/actions/aw-action-remove-order-department.php:21
 msgid "Remove a department from the order."
 msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
-#: lib/actions/aw-action-remove-order-department.php:89
+#: lib/automatewoo/actions/aw-action-remove-order-department.php:89
 msgid "[AutomateWoo] Workflow #%1$s removed department: %2$s"
 msgstr ""
 
-#: lib/actions/aw-action-set-order-department.php:20
+#: lib/automatewoo/actions/aw-action-set-order-department.php:20
 msgid "Set Order Department"
 msgstr ""
 
-#: lib/actions/aw-action-set-order-department.php:21
+#: lib/automatewoo/actions/aw-action-set-order-department.php:21
 msgid "Set a department for the order (replaces all existing departments)."
 msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
-#: lib/actions/aw-action-set-order-department.php:89
+#: lib/automatewoo/actions/aw-action-set-order-department.php:89
 msgid "[AutomateWoo] Workflow #%1$s set department to: %2$s"
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-count.php:22
+#: lib/automatewoo/rules/aw-rule-order-department-count.php:22
 msgid "Order - Department Count"
 msgstr ""
 
-#: lib/rules/aw-rule-order-department-is.php:22
+#: lib/automatewoo/rules/aw-rule-order-department-is.php:22
 msgid "Order - Department Is"
 msgstr ""
 
-#: lib/rules/aw-rule-order-has-department.php:22
+#: lib/automatewoo/rules/aw-rule-order-has-department.php:22
 msgid "Order - Has Department"
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:20
+msgid "Order Department Added"
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:21
+msgid "Triggers when a department is added to an order."
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:33
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:33
+msgid "Leave blank to trigger for any department."
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-added.php:45
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:45
+msgid "Any department"
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-changed.php:19
+msgid "Order Department Changed"
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-changed.php:20
+msgid "Triggers when order departments are modified in any way."
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:20
+msgid "Order Department Removed"
+msgstr ""
+
+#: lib/automatewoo/triggers/aw-trigger-order-department-removed.php:21
+msgid "Triggers when a department is removed from an order."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-count.php:23
+msgid "Displays the number of departments assigned to the order. Useful for conditional logic."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:26
+msgid "Displays department email addresses with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:30
+msgid "How to access the department emails."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:32
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:32
+msgid "By Index (default)"
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:33
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:33
+msgid "All Departments"
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:34
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:34
+msgid "Count of Departments"
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:41
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:41
+msgid "The index of the department to retrieve (1-based). Default is 1 (first department). Only used when mode is \"index\"."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:48
+#: lib/automatewoo/variables/aw-variable-order-departments-emails.php:28
+msgid "The separator to use between email addresses. Default is \", \" (comma space). Use \";\" for semicolon separation."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:55
+#: lib/automatewoo/variables/aw-variable-order-departments-emails.php:35
+msgid "Text to add before each email address."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-emails.php:62
+#: lib/automatewoo/variables/aw-variable-order-departments-emails.php:42
+msgid "Text to add after each email address."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:26
+msgid "Displays department names with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:30
+msgid "How to access the department names."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:48
+msgid "The separator to use between department names when mode is \"all\". Default is \", \" (comma space)."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:55
+#: lib/automatewoo/variables/aw-variable-order-departments-names.php:34
+msgid "Text to add before each department name. Example: \"Dept: \" would turn \"Sales\" into \"Dept: Sales\"."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-department-names.php:62
+#: lib/automatewoo/variables/aw-variable-order-departments-names.php:41
+msgid "Text to add after each department name. Example: \" Dept\" would turn \"Sales\" into \"Sales Dept\"."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-departments-emails.php:24
+msgid "Displays a list of all department email addresses assigned to the order. Useful for the \"To\" field in email actions."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-departments-names.php:23
+msgid "Displays a list of all department names assigned to the order."
+msgstr ""
+
+#: lib/automatewoo/variables/aw-variable-order-departments-names.php:27
+msgid "The separator to use between department names. Default is \", \" (comma space)."
+msgstr ""
+
+#: lib/settings.php:33
+msgid "Order Departments Settings"
+msgstr ""
+
+#: lib/settings.php:34
+msgid "Order Departments"
+msgstr ""
+
+#: lib/settings.php:60
+msgid "Customer Email Reply-To Settings"
+msgstr ""
+
+#: lib/settings.php:68
+msgid "Override Reply-To with Department Emails"
+msgstr ""
+
+#: lib/settings.php:77
+msgid "For Multi-Department Orders"
+msgstr ""
+
+#. translators: %s: Link to WooCommerce email settings
+#: lib/settings.php:150
+msgid "Configure how customer email replies are routed based on order departments. When disabled, emails use the %s."
+msgstr ""
+
+#: lib/settings.php:151
+#: lib/settings.php:212
+msgid "WooCommerce email settings"
+msgstr ""
+
+#: lib/settings.php:168
+msgid "Override reply-to with department email addresses"
+msgstr ""
+
+#: lib/settings.php:171
+msgid "When enabled, customer emails will use department email addresses in the reply-to field instead of the default WooCommerce setting."
+msgstr ""
+
+#: lib/settings.php:186
+msgid "Multi-Department Mode"
+msgstr ""
+
+#: lib/settings.php:193
+msgid "Use all department emails"
+msgstr ""
+
+#: lib/settings.php:196
+msgid "Add all unique department email addresses to the reply-to field. All departments will receive customer replies and need to coordinate who responds."
+msgstr ""
+
+#: lib/settings.php:205
+msgid "Skip override - fall back to WooCommerce default"
+msgstr ""
+
+#. translators: %s: Link to WooCommerce email settings
+#: lib/settings.php:211
+msgid "Use the default reply-to address from %s instead of department emails when multiple unique email addresses are involved."
+msgstr ""
+
+#: lib/settings.php:218
+msgid "Note:"
+msgstr ""
+
+#: lib/settings.php:219
+msgid "Multi-department is determined by the number of unique email addresses, not the number of departments. If multiple departments share the same email address, they are treated as a single department."
 msgstr ""
 
 #: lib/taxonomy.php:95
@@ -179,118 +361,3 @@ msgid "%d product"
 msgid_plural "%d products"
 msgstr[0] ""
 msgstr[1] ""
-
-#: lib/triggers/aw-trigger-order-department-added.php:20
-msgid "Order Department Added"
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-added.php:21
-msgid "Triggers when a department is added to an order."
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-added.php:33
-#: lib/triggers/aw-trigger-order-department-removed.php:33
-msgid "Leave blank to trigger for any department."
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-added.php:45
-#: lib/triggers/aw-trigger-order-department-removed.php:45
-msgid "Any department"
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-changed.php:19
-msgid "Order Department Changed"
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-changed.php:20
-msgid "Triggers when order departments are modified in any way."
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-removed.php:20
-msgid "Order Department Removed"
-msgstr ""
-
-#: lib/triggers/aw-trigger-order-department-removed.php:21
-msgid "Triggers when a department is removed from an order."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-count.php:23
-msgid "Displays the number of departments assigned to the order. Useful for conditional logic."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:26
-msgid "Displays department email addresses with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:30
-msgid "How to access the department emails."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:32
-#: lib/variables/aw-variable-order-department-names.php:32
-msgid "By Index (default)"
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:33
-#: lib/variables/aw-variable-order-department-names.php:33
-msgid "All Departments"
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:34
-#: lib/variables/aw-variable-order-department-names.php:34
-msgid "Count of Departments"
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:41
-#: lib/variables/aw-variable-order-department-names.php:41
-msgid "The index of the department to retrieve (1-based). Default is 1 (first department). Only used when mode is \"index\"."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:48
-#: lib/variables/aw-variable-order-departments-emails.php:28
-msgid "The separator to use between email addresses. Default is \", \" (comma space). Use \";\" for semicolon separation."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:55
-#: lib/variables/aw-variable-order-departments-emails.php:35
-msgid "Text to add before each email address."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-emails.php:62
-#: lib/variables/aw-variable-order-departments-emails.php:42
-msgid "Text to add after each email address."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-names.php:26
-msgid "Displays department names with flexible access options. Use index for specific departments, \"all\" for all departments, or \"count\" for the number of departments."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-names.php:30
-msgid "How to access the department names."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-names.php:48
-msgid "The separator to use between department names when mode is \"all\". Default is \", \" (comma space)."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-names.php:55
-#: lib/variables/aw-variable-order-departments-names.php:34
-msgid "Text to add before each department name. Example: \"Dept: \" would turn \"Sales\" into \"Dept: Sales\"."
-msgstr ""
-
-#: lib/variables/aw-variable-order-department-names.php:62
-#: lib/variables/aw-variable-order-departments-names.php:41
-msgid "Text to add after each department name. Example: \" Dept\" would turn \"Sales\" into \"Sales Dept\"."
-msgstr ""
-
-#: lib/variables/aw-variable-order-departments-emails.php:24
-msgid "Displays a list of all department email addresses assigned to the order. Useful for the \"To\" field in email actions."
-msgstr ""
-
-#: lib/variables/aw-variable-order-departments-names.php:23
-msgid "Displays a list of all department names assigned to the order."
-msgstr ""
-
-#: lib/variables/aw-variable-order-departments-names.php:27
-msgid "The separator to use between department names. Default is \", \" (comma space)."
-msgstr ""
