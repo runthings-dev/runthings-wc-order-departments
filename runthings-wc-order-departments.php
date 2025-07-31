@@ -50,6 +50,7 @@ require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/utils/department-matcher.
 require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/email-interceptor.php';
 require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/order-department-assigner.php';
 require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/automatewoo-integration.php';
+require_once RUNTHINGS_WC_ORDER_DEPARTMENTS_DIR . 'lib/settings.php';
 
 class RunthingsWCOrderDepartments
 {
@@ -68,6 +69,7 @@ class RunthingsWCOrderDepartments
         new EmailInterceptor($this->taxonomy);
         new OrderDepartmentAssigner($this->taxonomy);
         new AutomateWooIntegration();
+        new Settings();
     }
 
     public function declare_hpos_compatibility(): void
