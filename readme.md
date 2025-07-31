@@ -209,6 +209,11 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 ## Changelog
 
+### 1.0.1 - 27th June 2025
+
+- WordPress Plugin Directory release
+- Update contributors meta in readme.txt to match username
+
 ### 1.0.0 - 17th June 2025
 
 - Initial release
