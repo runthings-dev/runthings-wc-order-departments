@@ -28,25 +28,41 @@ class EmailInterceptor
         'customer_reset_password'
     ];
 
+    /**
+     * List of admin-facing email IDs that should have recipients modified
+     */
+    private $admin_email_ids = [
+        'new_order',
+        'cancelled_order',
+        'failed_order',
+        'backorder'
+    ];
+
     public function __construct($taxonomy = 'order_department')
     {
         $this->department_matcher = new DepartmentMatcher($taxonomy);
 
         // Apply filters to allow customization of email ID arrays
         $this->customer_email_ids = apply_filters('runthings_wc_order_departments_customer_email_ids', $this->customer_email_ids);
+        $this->admin_email_ids = apply_filters('runthings_wc_order_departments_admin_email_ids', $this->admin_email_ids);
+
+        // Hook into WooCommerce email recipient filters for admin notifications
+        foreach ($this->admin_email_ids as $email_id) {
+            add_filter("woocommerce_email_recipient_{$email_id}", [$this, 'modify_admin_email_recipient'], 10, 2);
+        }
 
         // Hook into WooCommerce email headers to modify reply-to for customer emails
         add_filter('woocommerce_email_headers', [$this, 'modify_customer_email_headers'], 10, 4);
     }
     
     /**
-     * Modify email recipients based on order department
+     * Modify admin email recipients based on order department
      *
      * @param string $recipient Default recipient email(s)
      * @param \WC_Order $order Order object
      * @return string Modified recipient email(s)
      */
-    public function modify_email_recipient($recipient, $order)
+    public function modify_admin_email_recipient($recipient, $order)
     {
         // Make sure we have a valid order
         if (!$order instanceof \WC_Order) {
