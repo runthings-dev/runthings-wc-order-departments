@@ -246,6 +246,19 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 == Changelog ==
 
+= 1.1.0 - 31st July 2025 =
+* **New Feature**: Customer email reply-to override system
+  * Configure reply-to behavior for customer emails based on department assignments
+  * Settings page at Settings > Order Departments with override toggle and multi-department handling options
+  * Single department orders always use department email for reply-to
+  * Multi-department orders can use all department emails or fall back to WooCommerce default
+* **New Feature**: Email customization filters
+  * `runthings_wc_order_departments_customer_email_ids` filter to customize which customer emails are modified
+  * `runthings_wc_order_departments_admin_email_ids` filter to customize which admin emails are modified
+* **Improvement**: Refactored email system with separate CustomerEmailInterceptor and AdminEmailInterceptor classes
+* **Improvement**: Enhanced email address validation and cleaning using PHP's filter_var()
+* **Improvement**: Robust email header manipulation with proper newline handling
+
 = 1.0.1 - 27th June 2025 =
 * WordPress Plugin Directory release
 * Update contributors meta in readme.txt to match username
@@ -278,6 +291,9 @@ You should have received a copy of the GNU General Public License along with thi
 Icon - SEO by pictohaven from [https://thenounproject.com/browse/icons/term/seo/](Noun Project) (CC BY 3.0)
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Major update with customer email reply-to override system and new settings page. Configure reply-to behavior for customer emails based on department assignments. Includes new developer filters for email customization.
 
 = 1.0.1 =
 Initial release of plugin on WordPress Plugin Directory. Fixed readme.txt contributors meta. 
