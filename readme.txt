@@ -96,7 +96,7 @@ This approach gives you the flexibility to use AutomateWoo's advanced email feat
 * `{{ order.department_names | prefix: 'Team: ', suffix: ' Dept' }}` → "Team: Sales Dept"
 * `{{ order.department_emails | separator: '; ' }}` → Multiple emails separated by semicolon
 
-= Use Cases =
+= Variable Use Cases =
 
 * **Sales & Technical Support**: Route orders containing software to Technical, hardware to Sales
   * Use `{{ order.departments_emails }}` to automatically send order notifications to the right team
@@ -113,6 +113,34 @@ This approach gives you the flexibility to use AutomateWoo's advanced email feat
 * **CRM Integration**: Trigger department-specific workflows in external systems
   * Pass `{{ order.departments_names }}` to CRM systems for proper lead assignment
   * Use `{{ order.departments_emails }}` for automated follow-up sequences
+
+== Developer Filters ==
+
+The plugin provides filters to customize email handling behavior:
+
+= Email ID Filters =
+
+**runthings_wc_order_departments_customer_email_ids**
+
+Customize which customer-facing email IDs have their reply-to headers modified by department emails.
+
+`add_filter('runthings_wc_order_departments_customer_email_ids', function($email_ids) { // Add custom customer email ID $email_ids[] = 'custom_customer_email'; // Remove an email ID if you don't want it modified $key = array_search('customer_new_account', $email_ids); if ($key !== false) { unset($email_ids[$key]); } return $email_ids; });`
+
+**Default customer email IDs**: `customer_completed_order`, `customer_cancelled_order`, `customer_failed_order`, `customer_on_hold_order`, `customer_invoice`, `customer_note`, `customer_refunded_order`, `customer_processing_order`, `customer_new_account`, `customer_reset_password`
+
+**runthings_wc_order_departments_admin_email_ids**
+
+Customize which admin-facing email IDs have their recipients modified to use department emails.
+
+`add_filter('runthings_wc_order_departments_admin_email_ids', function($email_ids) { // Add custom admin email ID $email_ids[] = 'custom_admin_notification'; // Remove an email ID if you don't want it modified $key = array_search('backorder', $email_ids); if ($key !== false) { unset($email_ids[$key]); } return $email_ids; });`
+
+**Default admin email IDs**: `new_order`, `cancelled_order`, `failed_order`, `backorder`
+
+= Use Cases for Email Filters =
+
+* **Custom Email Types**: Add support for emails from other plugins or custom implementations
+* **Selective Email Routing**: Exclude specific email types from department-based routing
+* **Third-party Integration**: Ensure compatibility with other email-related plugins
 
 == Installation ==
 
@@ -135,9 +163,26 @@ This approach gives you the flexibility to use AutomateWoo's advanced email feat
 
 = Email Routing =
 
-**Important**: Email routing behavior depends on whether the order's assigned departments have email addresses configured:
+The plugin provides two types of email routing:
 
-* **If the order's assigned departments have email addresses**: The plugin will override WooCommerce admin emails and send them to the department's email addresses instead
+= Admin Email Routing =
+
+**Admin emails** (new order notifications, etc.) are automatically routed to department email addresses when departments are assigned to orders.
+
+= Customer Email Reply-To Override =
+
+**Customer emails** can have their reply-to headers modified based on department assignments. Configure this at **Settings > Order Departments**:
+
+* **Override reply-to with department emails**: Enable/disable the reply-to override feature
+* **For multi-department orders**: Choose behavior when multiple unique email addresses are involved:
+  * **Use all department emails**: Add all unique department emails to reply-to header
+  * **Skip override - fall back to WooCommerce default**: Use WooCommerce's default reply-to setting
+
+**Email routing behavior**:
+
+* **Single department orders**: Always use that department's email for reply-to (when override enabled)
+* **Multi-department orders with same email**: Treated as single department
+* **Multi-department orders with different emails**: Behavior depends on settings choice
 * **If the order's assigned departments have NO email addresses**: The plugin does not attempt to override emails and WooCommerce emails work normally
 * **If WooCommerce emails are disabled**: No emails will be sent regardless of department email configuration
 
