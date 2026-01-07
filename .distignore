@@ -1,9 +1,11 @@
 # Ignore development files
+.wordpress-org/
 .git/
 node_modules/
 tests/
 build/
 src/
+.angular/
 .distignore
 .gitignore
 build.md
