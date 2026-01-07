@@ -280,6 +280,10 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 ## Changelog
 
+### 1.1.1 - 7th January 2026
+
+- Bump tested up to 6.9
+
 ### 1.1.0 - 31st July 2025
 
 - **New Feature**: Customer email reply-to override system
