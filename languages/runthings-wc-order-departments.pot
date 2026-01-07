@@ -1,17 +1,17 @@
-# Copyright (C) 2025 runthingsdev
+# Copyright (C) 2026 runthingsdev
 # This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Order Departments for WooCommerce 1.1.0\n"
+"Project-Id-Version: Order Departments for WooCommerce 1.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/runthings-wc-order-departments\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-31T15:39:17+00:00\n"
+"POT-Creation-Date: 2026-01-07T13:27:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: runthings-wc-order-departments\n"
 
 #. Plugin Name of the plugin
@@ -67,6 +67,7 @@ msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
 #: lib/automatewoo/actions/aw-action-add-order-department.php:89
+#, php-format
 msgid "[AutomateWoo] Workflow #%1$s added department: %2$s"
 msgstr ""
 
@@ -80,6 +81,7 @@ msgstr ""
 
 #. translators: %s: Workflow ID
 #: lib/automatewoo/actions/aw-action-clear-order-departments.php:50
+#, php-format
 msgid "[AutomateWoo] Workflow #%s cleared all departments"
 msgstr ""
 
@@ -93,6 +95,7 @@ msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
 #: lib/automatewoo/actions/aw-action-remove-order-department.php:89
+#, php-format
 msgid "[AutomateWoo] Workflow #%1$s removed department: %2$s"
 msgstr ""
 
@@ -106,6 +109,7 @@ msgstr ""
 
 #. translators: %1$s: Workflow ID, %2$s: Department name
 #: lib/automatewoo/actions/aw-action-set-order-department.php:89
+#, php-format
 msgid "[AutomateWoo] Workflow #%1$s set department to: %2$s"
 msgstr ""
 
@@ -258,6 +262,7 @@ msgstr ""
 
 #. translators: %s: Link to WooCommerce email settings
 #: lib/settings.php:150
+#, php-format
 msgid "Configure how customer email replies are routed based on order departments. When disabled, emails use the %s."
 msgstr ""
 
@@ -292,6 +297,7 @@ msgstr ""
 
 #. translators: %s: Link to WooCommerce email settings
 #: lib/settings.php:211
+#, php-format
 msgid "Use the default reply-to address from %s instead of department emails when multiple unique email addresses are involved."
 msgstr ""
 
@@ -352,11 +358,13 @@ msgstr ""
 
 #. translators: %s: Product name
 #: lib/taxonomy.php:456
+#, php-format
 msgid "First product: %s"
 msgstr ""
 
 #. translators: %d: Number of products
 #: lib/taxonomy.php:458
+#, php-format
 msgid "%d product"
 msgid_plural "%d products"
 msgstr[0] ""
