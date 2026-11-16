@@ -8,7 +8,7 @@
  * Author: runthingsdev
  * Author URI: https://runthings.dev/
  * Requires at least: 6.3
- * Tested up to: 6.9
+ * Tested up to: 7.1
  * Requires PHP: 7.4
  * Requires Plugins: woocommerce
  * WC requires at least: 8.2
