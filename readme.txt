@@ -4,7 +4,7 @@ Tags: woocommerce, orders, departments, automation, email-routing
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -246,6 +246,9 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 == Changelog ==
 
+= 1.1.2 - 16th November 2026 =
+* Update WordPress tested-up-to metadata to 7.1.
+
 = 1.1.1 - 7th January 2026 =
 * Bump tested up to 6.9
 
@@ -295,11 +298,11 @@ Icon - SEO by pictohaven from [https://thenounproject.com/browse/icons/term/seo/
 
 == Upgrade Notice ==
 
+= 1.1.2 =
+Update WordPress tested-up-to metadata to 7.1.
+
 = 1.1.1 =
 Bump tested up to 6.9
 
 = 1.1.0 =
 Major update with customer email reply-to override system and new settings page. Configure reply-to behavior for customer emails based on department assignments. Includes new developer filters for email customization.
-
-= 1.0.1 =
-Initial release of plugin on WordPress Plugin Directory. Fixed readme.txt contributors meta. 

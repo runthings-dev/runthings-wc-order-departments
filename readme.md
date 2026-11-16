@@ -280,6 +280,10 @@ Existing orders will not be automatically assigned to departments. Only new orde
 
 ## Changelog
 
+### 1.1.2 - 16th November 2026
+
+- Update WordPress tested-up-to metadata to 7.1.
+
 ### 1.1.1 - 7th January 2026
 
 - Bump tested up to 6.9
